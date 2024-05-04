@@ -8,6 +8,7 @@
 
 #include "dragonscene.h"
 #include "sidebar.h"
+#include "dragontoolbar.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -37,6 +38,7 @@ private:
     DragOnScene *scene;
     QGraphicsView * view;
     SideBar *sidebar;
+    DragOnToolBar * toolbar;
 
 };
 #endif // DRAGONMAINWINDOW_H

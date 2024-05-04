@@ -13,6 +13,7 @@ SOURCES += \
     Command.cpp \
     CommandManager.cpp \
     dragonscene.cpp \
+    dragontoolbar.cpp \
     dragonview.cpp \
     main.cpp \
     DragOnMainWindow.cpp \
@@ -26,6 +27,7 @@ HEADERS += \
     CommandManager.h \
     DragOnMainWindow.h \
     dragonscene.h \
+    dragontoolbar.h \
     dragonview.h \
     shapefactory.h \
     shapeitem.h \
@@ -37,3 +39,23 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 FORMS +=
+
+DISTFILES += \
+    images/background1.png \
+    images/background2.png \
+    images/background3.png \
+    images/background4.png \
+    images/bold.png \
+    images/bringtofront.png \
+    images/delete.png \
+    images/floodfill.png \
+    images/italic.png \
+    images/linecolor.png \
+    images/linepointer.png \
+    images/pointer.png \
+    images/sendtoback.png \
+    images/textpointer.png \
+    images/underline.png
+
+RESOURCES += \
+    Resources.qrc

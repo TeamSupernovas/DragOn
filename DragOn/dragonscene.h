@@ -20,7 +20,7 @@ class DragOnScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit DragOnScene(QObject *parent = nullptr);
+    explicit DragOnScene(CommandManager * commandManager, QObject *parent = nullptr);
     void setMode(SceneMode mode);
     void setSelectedItem(ShapeItem * shapeItem);
 
@@ -34,7 +34,7 @@ protected:
 private:
     SceneMode sceneMode{SceneMode::None};
     ShapeItem * selectedItem{nullptr};
-    CommandManager commandManager;
+    CommandManager * commandManager;
 };
 
 #endif // DRAGONSCENE_H

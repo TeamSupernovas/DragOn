@@ -11,7 +11,7 @@
 
 #include "AddCommand.h"
 
-DragOnScene::DragOnScene( QObject *parent): QGraphicsScene(parent)
+DragOnScene::DragOnScene(CommandManager * commandManager, QObject *parent): QGraphicsScene(parent), commandManager(commandManager)
 {}
 
 void DragOnScene::setMode(SceneMode mode) {
@@ -50,7 +50,7 @@ void DragOnScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
         if (selectedItem) {
             if (sceneMode == SceneMode::AddItem) {
                 selectedItem->setPos(event->scenePos());
-                commandManager.executeCommand(new AddCommand(selectedItem, this));
+                commandManager->executeCommand(new AddCommand(selectedItem, this));
                 selectedItem = nullptr;
                 sceneMode = SceneMode::None;
             }
@@ -63,7 +63,7 @@ void DragOnScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
 }
 
 void DragOnScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event) {
-    qDebug() << "dragMoveEvent dragMoveEvent";
+    //QGraphicsScene::dragMoveEvent(event);
 }
 
 void DragOnScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event) {

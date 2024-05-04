@@ -5,11 +5,13 @@
 DragOnMainWindow::DragOnMainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    scene = new DragOnScene;
+    CommandManager * commandManager = new CommandManager();
+    scene = new DragOnScene(commandManager);
     scene->setSceneRect(QRectF(0, 0, 5000, 5000));
 
     view = new DragOnView(scene);
     sidebar = new SideBar(this, scene, view);
+    toolbar = new DragOnToolBar(this, scene, commandManager);
 
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(sidebar);
@@ -22,6 +24,8 @@ DragOnMainWindow::DragOnMainWindow(QWidget *parent)
     setCentralWidget(widget);
     setWindowTitle(tr("Drag On"));
     setUnifiedTitleAndToolBarOnMac(true);
+
+
 
 }
 
