@@ -2,17 +2,27 @@
 #include <QAbstractButton>
 #include <QGridLayout>
 #include <QToolButton>
+#include <QHBoxLayout>
 #include "shapefactory.h"
 
 
-SideBar::SideBar(QMainWindow *mainWindow, DragOnScene * scene, QGraphicsView * view, QObject* parent):
-    QObject(parent), mainWindow(mainWindow), scene(scene), view(view) {
+SideBar::SideBar(QMainWindow *mainWindow, DragOnScene * scene, QGraphicsView * view):
+    mainWindow(mainWindow), scene(scene), view(view) {
+
     buttonGroup = new QButtonGroup(mainWindow);
     buttonGroup->setExclusive(false);
     scene->connect(buttonGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked),
             this, &SideBar::buttonGroupClicked);
+
     QGridLayout *layout = new QGridLayout;
     layout->addWidget(createCellWidget(tr("Rectangle"), ShapeType::Rectangle), 0, 0);
+
+    QWidget *itemWidget = new QWidget;
+    itemWidget->setLayout(layout);
+
+    setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Ignored));
+    setMinimumWidth(itemWidget->sizeHint().width());
+    addItem(itemWidget, tr("Shapes"));
 }
 
 

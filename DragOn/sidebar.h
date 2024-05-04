@@ -5,15 +5,16 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QToolBox>
 
 #include "shapeitem.h"
 #include "dragonscene.h"
 
 
-class SideBar: public QObject
+class SideBar: public QToolBox
 {
 public:
-    SideBar(QMainWindow *mainWindow, DragOnScene * scene, QGraphicsView * view, QObject* parent = nullptr);
+    SideBar(QMainWindow *mainWindow, DragOnScene * scene, QGraphicsView * view);
 
 private slots:
     void buttonGroupClicked(QAbstractButton *button);

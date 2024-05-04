@@ -1,7 +1,27 @@
 #include "DragOnMainWindow.h"
+#include <QHBoxLayout>
 
-MainWindow::MainWindow(QWidget *parent)
+DragOnMainWindow::DragOnMainWindow(QWidget *parent)
     : QMainWindow(parent)
-{}
+{
+    scene = new DragOnScene;
+    scene->setSceneRect(QRectF(0, 0, 800, 600));
 
-MainWindow::~MainWindow() {}
+    view = new QGraphicsView(scene);
+    sidebar = new SideBar(this, scene, view);
+
+    QHBoxLayout *layout = new QHBoxLayout;
+    layout->addWidget(sidebar);
+
+    layout->addWidget(view);
+
+    QWidget *widget = new QWidget;
+    widget->setLayout(layout);
+
+    setCentralWidget(widget);
+    setWindowTitle(tr("Drag On"));
+    setUnifiedTitleAndToolBarOnMac(true);
+
+}
+
+DragOnMainWindow::~DragOnMainWindow() {}

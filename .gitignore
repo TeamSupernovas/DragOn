@@ -33,6 +33,7 @@
 
 # ignore build
 DragOn/build/
+DragOn/DragOn/build
 
 # ignore  auto files
 .DS_Store

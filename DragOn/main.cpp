@@ -1,11 +1,13 @@
-#include "DragOnMainWindow.h"
 
+#include <QtCore>
 #include <QApplication>
+
+#include "DragOnMainWindow.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
+    DragOnMainWindow w;
     w.showMaximized();
     w.show();
     return a.exec();
