@@ -1,13 +1,14 @@
 #include "DragOnMainWindow.h"
+#include "dragonview.h"
 #include <QHBoxLayout>
 
 DragOnMainWindow::DragOnMainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     scene = new DragOnScene;
-    scene->setSceneRect(QRectF(0, 0, 800, 600));
+    scene->setSceneRect(QRectF(0, 0, 5000, 5000));
 
-    view = new QGraphicsView(scene);
+    view = new DragOnView(scene);
     sidebar = new SideBar(this, scene, view);
 
     QHBoxLayout *layout = new QHBoxLayout;

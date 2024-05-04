@@ -12,11 +12,11 @@ ShapeItem::ShapeItem(ShapeType shapeType, QPolygonF polygon, QGraphicsItem *pare
 
 QPixmap ShapeItem::image() const
 {
-    QPixmap pixmap(250, 250);
+    QPixmap pixmap(150, 150);
     pixmap.fill(Qt::transparent);
     QPainter painter(&pixmap);
-    painter.setPen(QPen(Qt::black, 8));
-    painter.translate(125, 125);
+    painter.setPen(QPen(Qt::black, 2));
+    //painter.translate(125, 125);
     painter.drawPolyline(polygon());
     return pixmap;
 }

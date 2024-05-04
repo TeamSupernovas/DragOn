@@ -17,7 +17,7 @@ public:
     SideBar(QMainWindow *mainWindow, DragOnScene * scene, QGraphicsView * view);
 
 private slots:
-    void buttonGroupClicked(QAbstractButton *button);
+    void buttonGroupPressed(QAbstractButton *button);
 
 
 private:

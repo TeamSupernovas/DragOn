@@ -3,6 +3,8 @@
 #include <QGridLayout>
 #include <QToolButton>
 #include <QHBoxLayout>
+#include<QMimeData>
+#include<QDrag>
 #include "shapefactory.h"
 
 
@@ -11,8 +13,8 @@ SideBar::SideBar(QMainWindow *mainWindow, DragOnScene * scene, QGraphicsView * v
 
     buttonGroup = new QButtonGroup(mainWindow);
     buttonGroup->setExclusive(false);
-    scene->connect(buttonGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked),
-            this, &SideBar::buttonGroupClicked);
+    scene->connect(buttonGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonPressed),
+            this, &SideBar::buttonGroupPressed);
 
     QGridLayout *layout = new QGridLayout;
     layout->addWidget(createCellWidget(tr("Rectangle"), ShapeType::Rectangle), 0, 0);
@@ -26,7 +28,7 @@ SideBar::SideBar(QMainWindow *mainWindow, DragOnScene * scene, QGraphicsView * v
 }
 
 
-void SideBar::buttonGroupClicked(QAbstractButton *button)
+void SideBar::buttonGroupPressed(QAbstractButton *button)
 {
     const QList<QAbstractButton *> buttons = buttonGroup->buttons();
     for (QAbstractButton *myButton : buttons) {
@@ -35,10 +37,23 @@ void SideBar::buttonGroupClicked(QAbstractButton *button)
     }
     const int id = buttonGroup->id(button);
     ShapeParameters shapeParams;
-    shapeParams.params.insert("rect", QRectF(0, 0, 200, 100));
+    shapeParams.params.insert("rect", QRectF(0, 0, 128, 64));
     ShapeItem*  item = ShapeFactory::createShape(ShapeType(id), shapeParams);
     scene->setSelectedItem(item);
     scene->setMode(SceneMode::AddItem);
+
+    // Create a MIME data object to hold the data being dragged
+    QMimeData *mimeData = new QMimeData;
+    mimeData->setText("rect"); // Example: Passing current text
+
+    // Create a drag object and set the MIME data
+    QDrag *drag = new QDrag(this);
+    drag->setMimeData(mimeData);
+    drag->setPixmap(item->image());
+
+    // Start the drag operation
+    drag->exec(Qt::CopyAction);
+
 }
 
 QWidget *SideBar::createCellWidget(const QString &text, ShapeType type)
