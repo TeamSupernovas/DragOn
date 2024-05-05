@@ -14,7 +14,7 @@ public:
 
 private:
     ShapeItem * item;
-    QGraphicsScene * scene;
+    DragOnScene * scene;
 };
 
 #endif // ADDCOMMAND_H

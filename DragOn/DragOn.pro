@@ -13,6 +13,7 @@ SOURCES += \
     Command.cpp \
     CommandManager.cpp \
     LoadSaveVisitor.cpp \
+    MoveCommand.cpp \
     dragonscene.cpp \
     dragontoolbar.cpp \
     dragonview.cpp \
@@ -29,6 +30,7 @@ HEADERS += \
     CommandManager.h \
     DragOnMainWindow.h \
     LoadSaveVisitor.h \
+    MoveCommand.h \
     dragonscene.h \
     dragontoolbar.h \
     dragonview.h \

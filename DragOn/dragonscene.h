@@ -29,6 +29,7 @@ protected:
     void dropEvent(QGraphicsSceneDragDropEvent *event) override;
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
+
 private:
     SceneMode sceneMode{SceneMode::None};
     ShapeItem * selectedItem{nullptr};
