@@ -5,6 +5,8 @@
 #include <QGraphicsPolygonItem>
 #include <QList>
 
+#include "itemvisitors.h"
+
 
 
 QT_BEGIN_NAMESPACE
@@ -33,6 +35,7 @@ public:
     ShapeType getShapeType() const { return shapeType; }
     QPixmap image() const;
     int type() const override { return Type; }
+    void accept(SceneItemVisitor *visitor);
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;

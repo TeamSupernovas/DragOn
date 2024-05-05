@@ -8,7 +8,6 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QMimeData>
-
 #include "AddCommand.h"
 
 DragOnScene::DragOnScene(CommandManager * commandManager, QObject *parent): QGraphicsScene(parent), commandManager(commandManager)

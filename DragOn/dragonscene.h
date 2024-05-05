@@ -24,8 +24,6 @@ public:
     void setMode(SceneMode mode);
     void setSelectedItem(ShapeItem * shapeItem);
 
-signals:
-
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void dropEvent(QGraphicsSceneDragDropEvent *event) override;

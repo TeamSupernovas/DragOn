@@ -12,9 +12,11 @@ SOURCES += \
     AddCommand.cpp \
     Command.cpp \
     CommandManager.cpp \
+    LoadSaveVisitor.cpp \
     dragonscene.cpp \
     dragontoolbar.cpp \
     dragonview.cpp \
+    filemanager.cpp \
     main.cpp \
     DragOnMainWindow.cpp \
     shapefactory.cpp \
@@ -26,9 +28,12 @@ HEADERS += \
     Command.h \
     CommandManager.h \
     DragOnMainWindow.h \
+    LoadSaveVisitor.h \
     dragonscene.h \
     dragontoolbar.h \
     dragonview.h \
+    filemanager.h \
+    itemvisitors.h \
     shapefactory.h \
     shapeitem.h \
     sidebar.h

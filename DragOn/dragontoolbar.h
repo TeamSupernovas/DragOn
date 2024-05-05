@@ -6,6 +6,7 @@
 
 #include "dragonscene.h"
 #include "CommandManager.h"
+#include "filemanager.h"
 
 class DragOnToolBar
 {
@@ -13,12 +14,11 @@ public:
     DragOnToolBar(QMainWindow * mainWindow, DragOnScene * scene, CommandManager *commandManager);
 
 private:
+    void createFileToolBar(QMainWindow *mainWindow,  DragOnScene * scene);
     void createEditToolBar(QMainWindow *mainWindow,  DragOnScene * scene, CommandManager *commandManager);
-    QAction * createUndoAction(QMainWindow *mainWindow, CommandManager *commandManager);
-    QAction * createRedoAction(QMainWindow *mainWindow, CommandManager *commandManager);
 
     DragOnScene * scene;
-    CommandManager commandManager;
+    FileManager * filemanager;
 
 };
 
