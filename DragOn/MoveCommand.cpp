@@ -1,16 +1,16 @@
 #include<MoveCommand.h>>
 
-MoveCommand::MoveCommand(ShapeItem * item, DragOnScene * scene, QPointF newPos)
-    : item(item), scene(scene), newPos(newPos) {
+MoveCommand::MoveCommand(ShapeItem * item, DragOnScene * scene, QPointF moveBy)
+    : item(item), scene(scene), moveBy(moveBy) {
     setText("Move Item");
 
 }
 
 void MoveCommand::undo() {
-    item->setPos(oldPos);
+    item->setPos(item->scenePos() - moveBy);
 }
 
 void MoveCommand::redo() {
-    oldPos = item->pos();
-    item->setPos(newPos);
+
+    item->setPos(item->scenePos() + moveBy);
 }

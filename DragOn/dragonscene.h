@@ -12,7 +12,7 @@
 
 
 enum class SceneMode {
-None, AddItem, MoveItem
+None, AddItem, MoveItem, RotateItem, ResizeItem
 };
 
 
@@ -23,6 +23,7 @@ public:
     explicit DragOnScene(CommandManager * commandManager, QObject *parent = nullptr);
     void setMode(SceneMode mode);
     void setSelectedItem(ShapeItem * shapeItem);
+    void unSelectIfSelectedItem();
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -34,6 +35,7 @@ private:
     SceneMode sceneMode{SceneMode::None};
     ShapeItem * selectedItem{nullptr};
     CommandManager * commandManager;
+    QPointF sceneDragStartPos;
 };
 
 #endif // DRAGONSCENE_H
