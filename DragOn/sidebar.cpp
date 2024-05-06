@@ -22,6 +22,7 @@ SideBar::SideBar(QMainWindow *mainWindow, DragOnScene * scene, QGraphicsView * v
     QGridLayout *layout = new QGridLayout;
     layout->addWidget(createCellWidget(tr("Rectangle"), ShapeType::Rectangle), 0, 0);
     layout->addWidget(createCellWidget(tr("Circle"), ShapeType::Circle), 0, 1);
+    layout->addWidget(createCellWidget(tr("Line"), ShapeType::Line), 1, 0);
 
     QWidget *itemWidget = new QWidget;
     itemWidget->setLayout(layout);

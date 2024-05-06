@@ -19,7 +19,8 @@ QT_END_NAMESPACE
 
 enum class ShapeType {
     Rectangle,
-    Circle
+    Circle,
+    Line
 };
 
 class ShapeItem: public QGraphicsPolygonItem

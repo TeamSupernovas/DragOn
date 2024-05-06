@@ -12,6 +12,14 @@ QPolygonF createRectanglePolygon(const ShapeParameters& params) {
     return polygon;
 }
 
+QPolygonF createLinePolygon(const ShapeParameters& params) {
+    QRectF rect = params.params.value("rect").toRectF();
+    QPolygonF polygon;
+    polygon << QPointF(rect.left(), rect.top())
+            << QPointF(rect.right(), rect.bottom());
+    return polygon;
+}
+
 QPolygonF createCirclePolygon(const ShapeParameters& params) {
     QRectF rect = params.params.value("rect").toRectF();
     QPolygonF polygon; // Similar to previous circle implementation
@@ -32,9 +40,15 @@ QPolygonF ShapeFactory::createShapePolygon(ShapeType shapeType, QPointF size) {
         shapeParams.params.insert("rect", QRectF(0, 0, size.rx(), size.ry()));
         return createRectanglePolygon(shapeParams);
 
+    case ShapeType::Line:
+        shapeParams.params.insert("rect", QRectF(0, 0, size.rx(), size.ry()));
+        return createLinePolygon(shapeParams);
+
     case ShapeType::Circle:
-        shapeParams.params.insert("rect", QRectF(0, 0, size.rx(), size.rx()));
+        shapeParams.params.insert("rect", QRectF(0, 0, size.rx(), size.ry()));
         return createCirclePolygon(shapeParams);
+
+
     }
     QPolygonF polygon;
     return polygon;
@@ -46,6 +60,9 @@ ShapeItem* ShapeFactory::createShape(ShapeType shapeType, const ShapeParameters&
     switch (shapeType) {
     case ShapeType::Rectangle:
         polygon = createRectanglePolygon(params);
+        break;
+    case ShapeType::Line:
+        polygon = createLinePolygon(params);
         break;
     case ShapeType::Circle:
         polygon = createCirclePolygon(params);
@@ -60,6 +77,10 @@ ShapeItem* ShapeFactory::createDefaultShape(ShapeType shapeType) {
     switch (shapeType) {
     case ShapeType::Rectangle:
         shapeParams.params.insert("rect", QRectF(0, 0, 128, 64));
+        return createShape(shapeType, shapeParams);
+
+    case ShapeType::Line:
+        shapeParams.params.insert("rect", QRectF(0, 0, 64, 64));
         return createShape(shapeType, shapeParams);
 
     case ShapeType::Circle:

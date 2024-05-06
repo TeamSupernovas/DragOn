@@ -21,7 +21,7 @@ QPixmap ShapeItem::image() const
     pixmap.fill(Qt::transparent);
     QPainter painter(&pixmap);
     painter.translate(-boundingRect.topLeft());
-    painter.setPen(QPen(Qt::black, 1));
+    painter.setPen(QPen(Qt::black, 2));
     painter.drawPolyline(polygon());
 
     return pixmap;
