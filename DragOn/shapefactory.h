@@ -15,6 +15,7 @@ class ShapeFactory
 {
 
 public:
+    static QPolygonF createShapePolygon(ShapeType shapeType, QPointF size);
     static ShapeItem* createShape(ShapeType shapeType, const ShapeParameters& params);
     static ShapeItem* createDefaultShape(ShapeType shapeType);
 };

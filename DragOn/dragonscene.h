@@ -1,6 +1,7 @@
 #ifndef DRAGONSCENE_H
 #define DRAGONSCENE_H
 
+#include <QDrag>
 #include <QGraphicsScene>
 #include <QObject>
 #include<QGraphicsSceneMouseEvent>
@@ -26,6 +27,8 @@ public:
     void unSelectIfSelectedItem();
 
 protected:
+    QDrag * createDrag(const QString& text);
+
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void dropEvent(QGraphicsSceneDragDropEvent *event) override;
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;

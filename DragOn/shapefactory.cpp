@@ -25,6 +25,21 @@ QPolygonF createCirclePolygon(const ShapeParameters& params) {
     return polygon;
 }
 
+QPolygonF ShapeFactory::createShapePolygon(ShapeType shapeType, QPointF size) {
+    ShapeParameters shapeParams;
+    switch (shapeType) {
+    case ShapeType::Rectangle:
+        shapeParams.params.insert("rect", QRectF(0, 0, size.rx(), size.ry()));
+        return createRectanglePolygon(shapeParams);
+
+    case ShapeType::Circle:
+        shapeParams.params.insert("rect", QRectF(0, 0, size.rx(), size.rx()));
+        return createCirclePolygon(shapeParams);
+    }
+    QPolygonF polygon;
+    return polygon;
+}
+
 
 ShapeItem* ShapeFactory::createShape(ShapeType shapeType, const ShapeParameters& params) {
     QPolygonF polygon;

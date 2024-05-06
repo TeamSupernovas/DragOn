@@ -12,11 +12,15 @@ SOURCES += \
     AddCommand.cpp \
     Command.cpp \
     CommandManager.cpp \
+    ExportToJPEG.cpp \
+    ExportToSVG.cpp \
     LoadSaveVisitor.cpp \
     MoveCommand.cpp \
+    ResizeCommand.cpp \
     dragonscene.cpp \
     dragontoolbar.cpp \
     dragonview.cpp \
+    ExportToPNG.cpp \
     filemanager.cpp \
     iconbutton.cpp \
     main.cpp \
@@ -30,11 +34,16 @@ HEADERS += \
     Command.h \
     CommandManager.h \
     DragOnMainWindow.h \
+    ExportToJPEG.h \
+    ExportToSVG.h \
     LoadSaveVisitor.h \
     MoveCommand.h \
+    ResizeCommand.h \
     dragonscene.h \
     dragontoolbar.h \
     dragonview.h \
+    exportstrategy.h \
+    ExportToPNG.h \
     filemanager.h \
     iconbutton.h \
     itemvisitors.h \

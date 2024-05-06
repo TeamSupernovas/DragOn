@@ -1,7 +1,7 @@
 #include<MoveCommand.h>>
 
-MoveCommand::MoveCommand(ShapeItem * item, DragOnScene * scene, QPointF moveBy)
-    : item(item), scene(scene), moveBy(moveBy) {
+MoveCommand::MoveCommand(ShapeItem * item, QPointF moveBy)
+    : item(item), moveBy(moveBy) {
     setText("Move Item");
 
 }

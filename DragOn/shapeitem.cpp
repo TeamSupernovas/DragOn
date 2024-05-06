@@ -12,12 +12,18 @@ ShapeItem::ShapeItem(ShapeType shapeType, QPolygonF polygon, QGraphicsItem *pare
 
 QPixmap ShapeItem::image() const
 {
-    QPixmap pixmap(150, 150);
+    // Calculate the bounding rectangle of the polygon
+    QRectF boundingRect = polygon().boundingRect().normalized();
+
+    // Create a pixmap with the size of the bounding rectangle
+    QPixmap pixmap(boundingRect.size().toSize() * 2);
+
     pixmap.fill(Qt::transparent);
     QPainter painter(&pixmap);
+    painter.translate(-boundingRect.topLeft());
     painter.setPen(QPen(Qt::black, 1));
-    //painter.translate(125, 125);
     painter.drawPolyline(polygon());
+
     return pixmap;
 }
 

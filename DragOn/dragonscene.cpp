@@ -10,8 +10,14 @@
 #include <QMimeData>
 #include "AddCommand.h"
 #include "MoveCommand.h"
+#include "ResizeCommand.h"
+#include "shapefactory.h"
 
 #include <QCursor>
+
+bool canResize(QRectF sceneBoundingRect, QPointF eventScenePos) {
+    return (sceneBoundingRect.bottomRight() - eventScenePos).manhattanLength() < 30;
+}
 
 
 DragOnScene::DragOnScene(CommandManager * commandManager, QObject *parent): QGraphicsScene(parent), commandManager(commandManager)
@@ -21,43 +27,60 @@ void DragOnScene::setMode(SceneMode mode) {
     sceneMode = mode;
 }
 
+QDrag * DragOnScene::createDrag(const QString& text) {
+
+    // Create a MIME data object to hold the item's data
+    QMimeData *mimeData = new QMimeData;
+    mimeData->setText(text);
+
+    // Create a drag object and set the MIME data
+    QDrag *drag = new QDrag(this);
+    drag->setMimeData(mimeData);
+
+    return drag;
+}
+
 void DragOnScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     qDebug() << "scene mouse pressed";
     if (event->button() == Qt::LeftButton) {
-        unSelectIfSelectedItem();
-        // Find the top-most item at the mouse position
-        QGraphicsItem *item = itemAt(event->scenePos(), QTransform());
-        if (item == selectedItem) {
-            // should we do something??
-            qDebug() << "mouse pressed on selected item";
-        }
-        else if (item && item->flags() & QGraphicsItem::ItemIsMovable) {
-            if (auto *shapeItem = dynamic_cast<ShapeItem*>(item)) {
-                event->accept();
-                setSelectedItem(shapeItem);
-                sceneMode = SceneMode::MoveItem;
-                qDebug() << "scene mode is MoveItem now";
+        if (selectedItem && canResize(selectedItem->sceneBoundingRect(), event->scenePos())) {
+            // start Resize
+            event->accept();
+            setSelectedItem(selectedItem);
+            sceneMode = SceneMode::ResizeItem;
+            qDebug() << "scene mode is ResizeItem now";
 
+            QDrag *drag = createDrag("Resize");
 
-                // Create a MIME data object to hold the item's data
-                QMimeData *mimeData = new QMimeData;
-                mimeData->setText("Dragged Item");
-
-                // Create a drag object and set the MIME data
-                QDrag *drag = new QDrag(this);
-                drag->setMimeData(mimeData);
-                drag->setPixmap(shapeItem->image());
-                drag->setHotSpot((event->scenePos() - shapeItem->scenePos()).toPoint());
-
-                // Start the drag operation
-                drag->exec(Qt::MoveAction);
-            }
+            // Start the drag operation
+            drag->exec(Qt::MoveAction);
 
         } else {
+            unSelectIfSelectedItem();
 
+            // Find the top-most item at the mouse position
+            QGraphicsItem *item = itemAt(event->scenePos(), QTransform());
+            if (auto *shapeItem = dynamic_cast<ShapeItem*>(item)) {
+                if (sceneMode == SceneMode::None) {
+                    if (item && item->flags() & QGraphicsItem::ItemIsMovable) {
+
+                        event->accept();
+                        setSelectedItem(shapeItem);
+                        sceneMode = SceneMode::MoveItem;
+                        qDebug() << "scene mode is MoveItem now";
+
+
+                        QDrag *drag = createDrag("Move");
+                        drag->setPixmap(shapeItem->image());
+                        drag->setHotSpot((event->scenePos() - shapeItem->scenePos()).toPoint());
+
+                        // Start the drag operation
+                        drag->exec(Qt::MoveAction);
+                    }
+                }
+            }
         }
     }
-    QGraphicsScene::mousePressEvent(event);
 }
 
 void DragOnScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
@@ -71,20 +94,25 @@ void DragOnScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
                 selectedItem->setPos(event->scenePos());
                 commandManager->executeCommand(new AddCommand(selectedItem, this));
                 sceneMode = SceneMode::None;
+                event->accept();
             } else if (sceneMode == SceneMode::MoveItem) {
                 QPointF dropPos = event->scenePos();
                 QPointF moveBy = dropPos - sceneDragStartPos;
                 if (moveBy.x() || moveBy.y()) {
-                    commandManager->executeCommand(new MoveCommand(selectedItem, this, moveBy));
+                    commandManager->executeCommand(new MoveCommand(selectedItem, moveBy));
                 }
                 sceneMode = SceneMode::None;
+                event->accept();
+            } else if (sceneMode == SceneMode::ResizeItem) {
+                QPointF newBottomRight = event->scenePos() - selectedItem->pos();
+                QPointF changeBoundingRectSizeBy = newBottomRight - selectedItem->polygon().boundingRect().bottomRight();
+                commandManager->executeCommand(new ResizeCommand(selectedItem, changeBoundingRectSizeBy));
+                sceneMode = SceneMode::None;
+                event->accept();
             }
         }
     }
     qDebug() << "Dropped Dropped:";
-    //event->accept();
-    //event->acceptProposedAction();
-    QGraphicsScene::dropEvent(event);
 }
 
 void DragOnScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event) {
@@ -109,9 +137,10 @@ void DragOnScene::setSelectedItem(ShapeItem *item) {
 }
 
 void DragOnScene::unSelectIfSelectedItem() {
-    if (selectedItem) {
-        selectedItem->setSelected(false);
+    foreach (QGraphicsItem *item, items()) {
+        if (item->isSelected()) {
+            item->setSelected(false);
+        }
     }
     selectedItem = nullptr;
 }
-
