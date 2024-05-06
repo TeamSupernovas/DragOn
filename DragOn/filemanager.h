@@ -4,6 +4,7 @@
 #include "dragonscene.h"
 #include <QString>
 #include <QMainWindow>
+#include "exportstrategy.h"
 
 class FileManager
 {
@@ -11,6 +12,7 @@ public:
     FileManager();
 
     void saveSceneToFile(QMainWindow *mainWindow, DragOnScene * scene);
+    void exportSceneToFile(QMainWindow *mainWindow, DragOnScene * scene, ExportStrategy * exportStrategy);
     void loadSceneFromFile(QMainWindow *mainWindow, DragOnScene * scene);
 
 private:

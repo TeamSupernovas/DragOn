@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui svg
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,7 +13,6 @@ SOURCES += \
     Command.cpp \
     CommandManager.cpp \
     ExportToJPEG.cpp \
-    ExportToSVG.cpp \
     LoadSaveVisitor.cpp \
     MoveCommand.cpp \
     ResizeCommand.cpp \
@@ -25,6 +24,7 @@ SOURCES += \
     iconbutton.cpp \
     main.cpp \
     DragOnMainWindow.cpp \
+    pixmapgenerator.cpp \
     shapefactory.cpp \
     shapeitem.cpp \
     sidebar.cpp
@@ -35,7 +35,6 @@ HEADERS += \
     CommandManager.h \
     DragOnMainWindow.h \
     ExportToJPEG.h \
-    ExportToSVG.h \
     LoadSaveVisitor.h \
     MoveCommand.h \
     ResizeCommand.h \
@@ -47,6 +46,7 @@ HEADERS += \
     filemanager.h \
     iconbutton.h \
     itemvisitors.h \
+    pixmapgenerator.h \
     shapefactory.h \
     shapeitem.h \
     sidebar.h

@@ -2,6 +2,8 @@
 #include "filemanager.h"
 #include <QToolBar>
 #include<QAction>
+#include "ExportToPNG.h"
+#include "ExportToJPEG.h"
 
 
 QAction * createUndoAction(QMainWindow *mainWindow, CommandManager *commandManager) {
@@ -40,6 +42,21 @@ QAction * createSaveAction(QMainWindow *mainWindow, DragOnScene * scene, FileMan
     return saveAction;
 }
 
+QAction * createExportAction(QMainWindow *mainWindow, DragOnScene * scene, ExportStrategy * exportStrategy, FileManager * filemanager) {
+    QAction * exportAction = new QAction(
+        exportStrategy->getIcon(),
+        exportStrategy->getName(),
+        mainWindow);
+
+    exportAction->setStatusTip(exportStrategy->getName());
+    mainWindow->connect(exportAction, &QAction::triggered, [mainWindow, scene, exportStrategy, filemanager]() {
+        filemanager->exportSceneToFile(mainWindow, scene, exportStrategy);
+
+    });
+
+    return exportAction;
+}
+
 
 QAction * createOpenFileAction(QMainWindow *mainWindow, DragOnScene * scene, FileManager * filemanager) {
     QAction * openFileAction = new QAction(QIcon(":/images/sendtoback.png"), QMainWindow::tr("&Open File"), mainWindow);
@@ -57,7 +74,10 @@ QAction * createOpenFileAction(QMainWindow *mainWindow, DragOnScene * scene, Fil
 
 DragOnToolBar::DragOnToolBar(QMainWindow * mainWindow, DragOnScene * scene, CommandManager *commandManager) {
     filemanager = new FileManager;
+    exportStrategies.push_back(new ExportToPNG());
+    exportStrategies.push_back(new ExportToJPEG());
     createFileToolBar(mainWindow, scene);
+    createExportToolBar(mainWindow, scene);
     createEditToolBar(mainWindow, scene, commandManager);
 }
 
@@ -65,6 +85,16 @@ void DragOnToolBar::createFileToolBar(QMainWindow *mainWindow,  DragOnScene * sc
     QToolBar * fileToolBar = mainWindow->addToolBar(QMainWindow::tr("File"));
     fileToolBar->addAction(createSaveAction(mainWindow, scene, filemanager));
     fileToolBar->addAction(createOpenFileAction(mainWindow, scene, filemanager));
+}
+
+void DragOnToolBar::createExportToolBar(QMainWindow *mainWindow,  DragOnScene * scene) {
+    QToolBar * exportToolBar = mainWindow->addToolBar(QMainWindow::tr("Export"));
+
+    for (auto& exportStrategy : exportStrategies) {
+        exportToolBar->addAction(
+            createExportAction(mainWindow, scene, exportStrategy, filemanager)
+        );
+    }
 }
 
 

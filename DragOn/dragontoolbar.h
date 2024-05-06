@@ -7,19 +7,25 @@
 #include "dragonscene.h"
 #include "CommandManager.h"
 #include "filemanager.h"
+#include "exportstrategy.h"
+
+#include <vector>
 
 class DragOnToolBar
 {
 public:
     DragOnToolBar(QMainWindow * mainWindow, DragOnScene * scene, CommandManager *commandManager);
 
-private:
+protected:
     void createFileToolBar(QMainWindow *mainWindow,  DragOnScene * scene);
+    void createExportToolBar(QMainWindow *mainWindow,  DragOnScene * scene);
     void createEditToolBar(QMainWindow *mainWindow,  DragOnScene * scene, CommandManager *commandManager);
 
+private:
     DragOnScene * scene;
     FileManager * filemanager;
 
+    std::vector<ExportStrategy *> exportStrategies;
 };
 
 #endif // DRAGONTOOLBAR_H

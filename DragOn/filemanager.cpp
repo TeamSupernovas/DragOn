@@ -1,5 +1,6 @@
 #include "filemanager.h"
 #include "LoadSaveVisitor.h"
+#include "pixmapgenerator.h"
 #include <QString>
 #include <QIODevice>
 #include <QFileDialog>
@@ -31,8 +32,20 @@ void FileManager::saveSceneToFile(QMainWindow *mainWindow, DragOnScene * scene) 
         }
     }
 
-
 }
+
+void FileManager::exportSceneToFile(QMainWindow *mainWindow, DragOnScene * scene, ExportStrategy * exportStrategy) {
+
+    QString exportFilename = QFileDialog::getSaveFileName(
+        mainWindow,
+        exportStrategy->getName(),
+        QString("image.") + exportStrategy->getExtension(),
+        QString("All Files (*.") + exportStrategy->getExtension() + QString(")")
+    );
+    QPixmap pixmap = PixmapGenerator::createPixmapFromScene(scene);
+    exportStrategy->exportScene(pixmap, exportFilename);
+}
+
 void FileManager::loadSceneFromFile(QMainWindow *mainWindow, DragOnScene * scene){
     currentFilePath = QFileDialog::getOpenFileName(mainWindow, QFileDialog::tr("Open File"), "", QFileDialog::tr("All Files (*.*)"));
     if (!currentFilePath.isEmpty()) {

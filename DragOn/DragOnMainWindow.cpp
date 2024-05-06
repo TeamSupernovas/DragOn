@@ -7,7 +7,7 @@ DragOnMainWindow::DragOnMainWindow(QWidget *parent)
 {
     CommandManager * commandManager = new CommandManager();
     scene = new DragOnScene(commandManager);
-    scene->setSceneRect(QRectF(0, 0, 5000, 5000));
+    scene->setSceneRect(QRectF(0, 0, 800, 600));
 
     view = new DragOnView(scene);
     sidebar = new SideBar(this, scene, view);
