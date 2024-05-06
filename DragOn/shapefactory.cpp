@@ -1,16 +1,7 @@
 #include "shapefactory.h"
 
 
-ShapeItem* ShapeFactory::createShape(ShapeType shapeType, const ShapeParameters& params, QGraphicsItem* parent) {
-    switch (shapeType) {
-    case ShapeType::Rectangle:
-        return createRectangle(shapeType, params, parent);
-    default:
-        return nullptr;
-    }
-}
-
-ShapeItem* ShapeFactory::createRectangle(ShapeType shapeType, const ShapeParameters& params, QGraphicsItem* parent) {
+QPolygonF createRectanglePolygon(const ShapeParameters& params) {
     QRectF rect = params.params.value("rect").toRectF();
     QPolygonF polygon;
     polygon << QPointF(rect.left(), rect.top())
@@ -18,6 +9,49 @@ ShapeItem* ShapeFactory::createRectangle(ShapeType shapeType, const ShapeParamet
             << QPointF(rect.right(), rect.bottom())
             << QPointF(rect.left(), rect.bottom())
             << QPointF(rect.left(), rect.top());
-    return new ShapeItem(shapeType, polygon, parent);
+    return polygon;
 }
+
+QPolygonF createCirclePolygon(const ShapeParameters& params) {
+    QRectF rect = params.params.value("rect").toRectF();
+    QPolygonF polygon; // Similar to previous circle implementation
+    const int points = 32;  // Example points count
+    for(int i = 0; i < points; ++i) {
+        qreal angle = 2 * M_PI * i / points;
+        polygon << QPointF(rect.center().x() + rect.width()/2 * cos(angle),
+                           rect.center().y() + rect.height()/2 * sin(angle));
+    }
+    polygon << polygon.first(); // Close the circle
+    return polygon;
+}
+
+
+ShapeItem* ShapeFactory::createShape(ShapeType shapeType, const ShapeParameters& params) {
+    QPolygonF polygon;
+    switch (shapeType) {
+    case ShapeType::Rectangle:
+        polygon = createRectanglePolygon(params);
+        break;
+    case ShapeType::Circle:
+        polygon = createCirclePolygon(params);
+        break;
+    }
+    return new ShapeItem(shapeType, polygon);
+}
+
+
+ShapeItem* ShapeFactory::createDefaultShape(ShapeType shapeType) {
+    ShapeParameters shapeParams;
+    switch (shapeType) {
+    case ShapeType::Rectangle:
+        shapeParams.params.insert("rect", QRectF(0, 0, 128, 64));
+        return createShape(shapeType, shapeParams);
+
+    case ShapeType::Circle:
+        shapeParams.params.insert("rect", QRectF(0, 0, 128, 128));
+        return createShape(shapeType, shapeParams);
+    }
+    return nullptr;;
+}
+
 

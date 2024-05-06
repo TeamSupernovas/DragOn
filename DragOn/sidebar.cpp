@@ -5,7 +5,9 @@
 #include <QHBoxLayout>
 #include<QMimeData>
 #include<QDrag>
+#include <QLabel>
 #include "shapefactory.h"
+#include "iconbutton.h"
 
 
 SideBar::SideBar(QMainWindow *mainWindow, DragOnScene * scene, QGraphicsView * view):
@@ -13,11 +15,13 @@ SideBar::SideBar(QMainWindow *mainWindow, DragOnScene * scene, QGraphicsView * v
 
     buttonGroup = new QButtonGroup(mainWindow);
     buttonGroup->setExclusive(false);
+
     scene->connect(buttonGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonPressed),
-            this, &SideBar::buttonGroupPressed);
+                   this, &SideBar::buttonGroupPressed);
 
     QGridLayout *layout = new QGridLayout;
     layout->addWidget(createCellWidget(tr("Rectangle"), ShapeType::Rectangle), 0, 0);
+    layout->addWidget(createCellWidget(tr("Circle"), ShapeType::Circle), 0, 1);
 
     QWidget *itemWidget = new QWidget;
     itemWidget->setLayout(layout);
@@ -33,18 +37,19 @@ void SideBar::buttonGroupPressed(QAbstractButton *button)
     const QList<QAbstractButton *> buttons = buttonGroup->buttons();
     for (QAbstractButton *myButton : buttons) {
         if (myButton != button)
+        {
             button->setChecked(false);
+        }
+
     }
     const int id = buttonGroup->id(button);
-    ShapeParameters shapeParams;
-    shapeParams.params.insert("rect", QRectF(0, 0, 128, 64));
-    ShapeItem*  item = ShapeFactory::createShape(ShapeType(id), shapeParams);
+    ShapeItem*  item = ShapeFactory::createDefaultShape(ShapeType(id));
     scene->setSelectedItem(item);
     scene->setMode(SceneMode::AddItem);
 
     // Create a MIME data object to hold the data being dragged
     QMimeData *mimeData = new QMimeData;
-    mimeData->setText("rect"); // Example: Passing current text
+    mimeData->setText("add shape"); // Example: Passing current text
 
     // Create a drag object and set the MIME data
     QDrag *drag = new QDrag(this);
@@ -59,17 +64,15 @@ void SideBar::buttonGroupPressed(QAbstractButton *button)
 QWidget *SideBar::createCellWidget(const QString &text, ShapeType type)
 {
 
-    ShapeParameters shapeParams;
-    shapeParams.params.insert(text, QRectF(0, 0, 200, 100));
-    ShapeItem*  item = ShapeFactory::createShape(type, shapeParams);
+    ShapeItem*  item = ShapeFactory::createDefaultShape(type);
 
     QIcon icon(item->image());
 
-    delete item;
 
-    QToolButton *button = new QToolButton;
+    IconButton *button = new IconButton(icon);
     button->setIcon(icon);
-    button->setIconSize(QSize(20, 20));
+    button->setIconSize(QSize(100, 100));
+    button->setToolTip(text);
     button->setCheckable(true);
     buttonGroup->addButton(button, int(type));
 

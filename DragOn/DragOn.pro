@@ -18,6 +18,7 @@ SOURCES += \
     dragontoolbar.cpp \
     dragonview.cpp \
     filemanager.cpp \
+    iconbutton.cpp \
     main.cpp \
     DragOnMainWindow.cpp \
     shapefactory.cpp \
@@ -35,6 +36,7 @@ HEADERS += \
     dragontoolbar.h \
     dragonview.h \
     filemanager.h \
+    iconbutton.h \
     itemvisitors.h \
     shapefactory.h \
     shapeitem.h \

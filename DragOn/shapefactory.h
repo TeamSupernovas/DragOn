@@ -15,12 +15,8 @@ class ShapeFactory
 {
 
 public:
-    static ShapeItem* createShape(ShapeType shapeType, const ShapeParameters& params, QGraphicsItem* parent = nullptr);
-
-
-private:
-    static ShapeItem* createRectangle(ShapeType shapeType, const ShapeParameters& params, QGraphicsItem* parent= nullptr);
-
+    static ShapeItem* createShape(ShapeType shapeType, const ShapeParameters& params);
+    static ShapeItem* createDefaultShape(ShapeType shapeType);
 };
 
 #endif // SHAPEFACTORY_H
