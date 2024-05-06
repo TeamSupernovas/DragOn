@@ -20,7 +20,11 @@ QT_END_NAMESPACE
 enum class ShapeType {
     Rectangle,
     Circle,
-    Line
+    Line,
+    Square,
+    Triangle,
+    Rhombus,
+    Pentagon
 };
 
 class ShapeItem: public QGraphicsPolygonItem
