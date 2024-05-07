@@ -177,7 +177,7 @@ ShapeItem* ShapeFactory::createDefaultShape(ShapeType shapeType) {
         shapeParams.params.insert("rhombus", QRectF(0, 0, 100, 100));
         return createShape(ShapeType::Rhombus, shapeParams);
     }
-    return nullptr;;
+    return nullptr;
 }
 
 

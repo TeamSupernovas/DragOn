@@ -94,6 +94,7 @@ QAction *createColorAction(QMainWindow *mainWindow, DragOnScene *scene) {
                     scene->getCommandManager()->executeCommand(new ColorCommand(shapeItem, oldColor, color));
                 }
             }
+            scene->setTextColor(color);
         }
     });
     return colorAction;

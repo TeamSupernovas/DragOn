@@ -42,7 +42,7 @@ void FileManager::exportSceneToFile(QMainWindow *mainWindow, DragOnScene * scene
 }
 
 void FileManager::loadSceneFromFile(QMainWindow *mainWindow, DragOnScene * scene){
-    currentFilePath = QFileDialog::getOpenFileName(mainWindow, QFileDialog::tr("Open File"), "", QFileDialog::tr("All Files (*.*)"));
+    currentFilePath = QFileDialog::getOpenFileName(mainWindow, QFileDialog::tr("Open File"), "", QFileDialog::tr("All Files (*)"));
     if (!currentFilePath.isEmpty()) {
         QFile file(currentFilePath);
         if (file.open(QIODevice::ReadOnly)) {

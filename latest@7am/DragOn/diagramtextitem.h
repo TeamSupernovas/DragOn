@@ -23,6 +23,7 @@ public:
 
     int type() const override { return Type; }
 
+    static DiagramTextItem * createTextItem(QString text, QFont font, QColor color);
     static DiagramTextItem * createTextItem(QString text, QFont font, QColor color, QTransform transform);
 
 signals:

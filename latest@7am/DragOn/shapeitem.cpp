@@ -1,12 +1,14 @@
 #include "shapeitem.h"
 #include <QPainter>
+#include <QStyle>
+#include<QStyleOptionGraphicsItem>
 
 ShapeItem::ShapeItem(ShapeType shapeType, QPolygonF polygon, const QColor &color, QGraphicsItem *parent)
     : QGraphicsPolygonItem(polygon, parent), shapeType(shapeType), color(color), originalColor(color) {
 
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
-    setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+    //setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
 
 QPixmap ShapeItem::image() const
@@ -38,12 +40,17 @@ QVariant ShapeItem::itemChange(GraphicsItemChange change, const QVariant &value)
 void ShapeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 
-    Q_UNUSED(option);
+    //Q_UNUSED(option);
     Q_UNUSED(widget);
     painter->setPen(QPen(color));
     painter->setBrush(color);
     painter->setPen(QPen(Qt::black, 5));
     painter->drawPolygon(polygon());
+    if (option->state & QStyle::State_Selected) {
+        painter->setPen(Qt::blue);
+        painter->setBrush(Qt::NoBrush);
+        painter->drawRect(boundingRect());
+    }
 }
 
 void ShapeItem::setColor(const QColor &newColor)

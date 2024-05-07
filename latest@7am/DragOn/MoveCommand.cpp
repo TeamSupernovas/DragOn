@@ -7,10 +7,11 @@ MoveCommand::MoveCommand(QGraphicsItem * item, QPointF moveBy)
 }
 
 void MoveCommand::undo() {
+    qDebug() << "MoveCommand undo: " << item->scenePos() << "-" << moveBy;
     item->setPos(item->scenePos() - moveBy);
 }
 
 void MoveCommand::redo() {
-
+    qDebug() << "MoveCommand undo: " << item->scenePos() << "+" << moveBy;
     item->setPos(item->scenePos() + moveBy);
 }
