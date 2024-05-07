@@ -8,5 +8,5 @@
 #include <QMimeData>
 
 DragOnView::DragOnView(DragOnScene * scene): QGraphicsView(scene) {
-    setAcceptDrops(true);
+    //setAcceptDrops(true);
 }

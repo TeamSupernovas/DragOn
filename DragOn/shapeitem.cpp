@@ -6,7 +6,7 @@ ShapeItem::ShapeItem(ShapeType shapeType, QPolygonF polygon, QGraphicsItem *pare
 
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
-    setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+    //setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
 
 

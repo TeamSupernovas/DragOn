@@ -50,7 +50,7 @@ void DragOnScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     qDebug() << "scene mouse pressed";
     bool dragCreated = false;
     if (event->button() == Qt::LeftButton) {
-        if (selectedItem) {
+        if (selectedItem && sceneMode == SceneMode::None) {
             if (auto *selectedShapeItem = dynamic_cast<ShapeItem*>(selectedItem)) {
                 if (canResize(selectedShapeItem->sceneBoundingRect(), event->scenePos())) {
                     dragCreated = true;
@@ -68,30 +68,29 @@ void DragOnScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
             }
 
         }
-        if (!dragCreated){
+        if (!dragCreated && sceneMode == SceneMode::None){
             // Find the top-most item at the mouse position
             QGraphicsItem *graphicsItem = itemAt(event->scenePos(), QTransform());
             if (graphicsItem == nullptr) {
                 unSelectIfSelectedItem();
             }
             else if (auto *sceneItem = dynamic_cast<DragOnSceneItem*>(graphicsItem)) {
-                if (sceneMode == SceneMode::None) {
-                    if (graphicsItem && graphicsItem->flags() & QGraphicsItem::ItemIsMovable) {
 
-                        event->accept();
-                        setSelectedItem(sceneItem);
-                        sceneMode = SceneMode::MoveItem;
-                        qDebug() << "scene mode is MoveItem now";
+                if (graphicsItem && graphicsItem->flags() & QGraphicsItem::ItemIsMovable) {
 
-                        QDrag *drag = createDrag("Move");
-                        if (auto *shapeItem = dynamic_cast<ShapeItem*>(graphicsItem)) {
-                            drag->setPixmap(shapeItem->image());
-                        }
-                        drag->setHotSpot((event->scenePos() - graphicsItem->scenePos()).toPoint());
-                        dragCreated = true;
-                        // Start the drag operation
-                        drag->exec(Qt::MoveAction);
+                    event->accept();
+                    setSelectedItem(sceneItem);
+                    sceneMode = SceneMode::MoveItem;
+                    qDebug() << "scene mode is MoveItem now";
+
+                    QDrag *drag = createDrag("Move");
+                    if (auto *shapeItem = dynamic_cast<ShapeItem*>(graphicsItem)) {
+                        drag->setPixmap(shapeItem->image());
                     }
+                    drag->setHotSpot((event->scenePos() - graphicsItem->scenePos()).toPoint());
+                    dragCreated = true;
+                    // Start the drag operation
+                    drag->exec(Qt::MoveAction);
                 }
             }
         }
@@ -102,21 +101,19 @@ void DragOnScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 }
 
 void DragOnScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
-    qDebug() << "Dropped Dropped:";
+    qDebug() << "Dropping";
 
     const QMimeData *mimeData = event->mimeData();
     if (mimeData->hasText()) {
         QString text = mimeData->text();
         qDebug() << "Dropped text:" << text;
         if (sceneMode == SceneMode::InsertText) {
-            QTransform transform;
-            transform.translate(event->scenePos().rx(), event->scenePos().ry());
             DiagramTextItem * textItem = DiagramTextItem::createTextItem(
                 QString("lorem ipsum"),
                 textItemFont,
-                textItemColor,
-                transform
+                textItemColor
             );
+            textItem->setPos(event->scenePos());
             setSelectedItem(textItem);
             qDebug() << "insert text item now";
             commandManager->executeCommand(new AddTextCommand(textItem, this));
@@ -134,6 +131,7 @@ void DragOnScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
                 if (auto *graphicsItem = dynamic_cast<QGraphicsItem*>(selectedItem)) {
                     QPointF dropPos = event->scenePos();
                     QPointF moveBy = dropPos - sceneDragStartPos;
+                    qDebug() << "moveBy: " << moveBy;
                     if (moveBy.x() || moveBy.y()) {
                         commandManager->executeCommand(new MoveCommand(graphicsItem, moveBy));
                     }
@@ -151,7 +149,7 @@ void DragOnScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
             }
         }
     }
-    qDebug() << "Dropped Dropped:";
+    QGraphicsScene::dropEvent(event);
 }
 
 void DragOnScene::editorLostFocus(DiagramTextItem *item)
@@ -161,6 +159,7 @@ void DragOnScene::editorLostFocus(DiagramTextItem *item)
     item->setTextCursor(cursor);
 
     if (item->toPlainText().isEmpty()) {
+        qDebug() << "removing empty text";
         removeItem(item);
         item->deleteLater();
     }
@@ -177,7 +176,7 @@ void DragOnScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event) {
         qDebug() << "dragEnterEvent has text: " << event->mimeData()->text();
     }
     sceneDragStartPos = event->scenePos();
-    qDebug() << "Drag entered entered";
+    qDebug() << "Drag entered at:" << sceneDragStartPos ;
     QGraphicsScene::dragEnterEvent(event);
 }
 
@@ -197,7 +196,7 @@ void DragOnScene::unSelectIfSelectedItem() {
 }
 
 void DragOnScene::drawBackground(QPainter *painter, const QRectF &rect) {
-    const qreal gridSize = 20.0;  // Grid spacing
+    const qreal gridSize = 10.0;  // Grid spacing
     qreal left = int(rect.left()) - (int(rect.left()) % int(gridSize));
     qreal top = int(rect.top()) - (int(rect.top()) % int(gridSize));
 

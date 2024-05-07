@@ -11,7 +11,7 @@ QPixmap PixmapGenerator::createPixmapFromScene(DragOnScene *scene) {
     scene->unSelectIfSelectedItem();
 
     // Create a pixmap with the size of the scene
-    QPixmap pixmap(800, 600);
+    QPixmap pixmap(scene->sceneRect().size().toSize());
     pixmap.fill(Qt::white);
 
     // Create a painter to render the scene onto the pixmap

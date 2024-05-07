@@ -8,6 +8,15 @@ DiagramTextItem::DiagramTextItem(QGraphicsItem *parent)
     setFlag(QGraphicsItem::ItemIsSelectable);
 }
 
+DiagramTextItem * DiagramTextItem::createTextItem(QString text, QFont font, QColor color) {
+    DiagramTextItem * textItem = new DiagramTextItem();
+    textItem->setFont(font);
+    textItem->setPlainText(text);
+    textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
+    textItem->setDefaultTextColor(color);
+    return textItem;
+}
+
 DiagramTextItem * DiagramTextItem::createTextItem(QString text, QFont font, QColor color, QTransform transform) {
     DiagramTextItem * textItem = new DiagramTextItem();
     textItem->setFont(font);
