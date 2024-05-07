@@ -10,6 +10,9 @@ CONFIG += c++17
 
 SOURCES += \
     AddShapeCommand.cpp \
+    AddTextCommand.cpp \
+    ChangeTextColorCommand.cpp \
+    ChangeTextFontCommand.cpp \
     Command.cpp \
     CommandManager.cpp \
     ExportToJPEG.cpp \
@@ -32,6 +35,9 @@ SOURCES += \
 
 HEADERS += \
     AddShapeCommand.h \
+    AddTextCommand.h \
+    ChangeTextColorCommand.h \
+    ChangeTextFontCommand.h \
     Command.h \
     CommandManager.h \
     DragOnMainWindow.h \

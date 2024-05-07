@@ -29,7 +29,7 @@ public:
     void setMode(SceneMode mode);
     void setSelectedItem(DragOnSceneItem * shapeItem);
     void unSelectIfSelectedItem();
-    void addTextItem(QString text, QFont font, QColor color, QTransform transform);
+    void addTextItem(DiagramTextItem * textItem);
     void setTextColor(const QColor &color);
     QFont currentFont();
     void setFont(const QFont &font);

@@ -2,7 +2,7 @@
 
 AddShapeCommand::AddShapeCommand(ShapeItem* item, DragOnScene * scene)
     : item(item), scene(scene) {
-    setText("Add Item");
+    setText("Add Shape Item");
 
 }
 

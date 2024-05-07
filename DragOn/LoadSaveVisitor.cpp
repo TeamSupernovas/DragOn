@@ -156,7 +156,8 @@ void loadDeserializeItem(DragOnScene *scene, const QString& serialized) {
         QFont font = deserializeFont(parts[2]);
         QColor color = deserializeColor(parts[3]);
         QTransform transform = deserializeTransform(parts[4]);
-        scene->addTextItem(text, font, color, transform);
+        DiagramTextItem *textItem = DiagramTextItem::createTextItem(text, font, color, transform);
+        scene->addTextItem(textItem);
     }
 }
 
