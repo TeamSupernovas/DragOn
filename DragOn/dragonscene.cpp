@@ -48,12 +48,12 @@ QDrag * DragOnScene::createDrag(const QString& text) {
 
 void DragOnScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     qDebug() << "scene mouse pressed";
-    bool resizing = false;
+    bool dragCreated = false;
     if (event->button() == Qt::LeftButton) {
         if (selectedItem) {
             if (auto *selectedShapeItem = dynamic_cast<ShapeItem*>(selectedItem)) {
                 if (canResize(selectedShapeItem->sceneBoundingRect(), event->scenePos())) {
-                    resizing = true;
+                    dragCreated = true;
                     // start Resize
                     event->accept();
                     setSelectedItem(selectedItem);
@@ -68,7 +68,7 @@ void DragOnScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
             }
 
         }
-        if (resizing == false){
+        if (!dragCreated){
             // Find the top-most item at the mouse position
             QGraphicsItem *graphicsItem = itemAt(event->scenePos(), QTransform());
             if (graphicsItem == nullptr) {
@@ -88,18 +88,22 @@ void DragOnScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
                             drag->setPixmap(shapeItem->image());
                         }
                         drag->setHotSpot((event->scenePos() - graphicsItem->scenePos()).toPoint());
-
+                        dragCreated = true;
                         // Start the drag operation
                         drag->exec(Qt::MoveAction);
                     }
                 }
             }
         }
+        if (!dragCreated) {
+            QGraphicsScene::mousePressEvent(event);
+        }
     }
 }
 
 void DragOnScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
     qDebug() << "Dropped Dropped:";
+
     const QMimeData *mimeData = event->mimeData();
     if (mimeData->hasText()) {
         QString text = mimeData->text();
