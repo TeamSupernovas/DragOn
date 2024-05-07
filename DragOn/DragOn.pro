@@ -9,13 +9,14 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    AddCommand.cpp \
+    AddShapeCommand.cpp \
     Command.cpp \
     CommandManager.cpp \
     ExportToJPEG.cpp \
     LoadSaveVisitor.cpp \
     MoveCommand.cpp \
     ResizeCommand.cpp \
+    diagramtextitem.cpp \
     dragonscene.cpp \
     dragontoolbar.cpp \
     dragonview.cpp \
@@ -30,14 +31,16 @@ SOURCES += \
     sidebar.cpp
 
 HEADERS += \
-    AddCommand.h \
+    AddShapeCommand.h \
     Command.h \
     CommandManager.h \
     DragOnMainWindow.h \
+    DragOnSceneItem.h \
     ExportToJPEG.h \
     LoadSaveVisitor.h \
     MoveCommand.h \
     ResizeCommand.h \
+    diagramtextitem.h \
     dragonscene.h \
     dragontoolbar.h \
     dragonview.h \

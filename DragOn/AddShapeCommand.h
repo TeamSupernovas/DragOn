@@ -1,13 +1,13 @@
-#ifndef ADDCOMMAND_H
-#define ADDCOMMAND_H
+#ifndef ADDSHAPECOMMAND_H
+#define ADDSHAPECOMMAND_H
 
 #include "Command.h"
 #include "dragonscene.h"
 #include "shapeitem.h"
 
-class AddCommand : public Command {
+class AddShapeCommand : public Command {
 public:
-    AddCommand(ShapeItem * item, DragOnScene * scene);
+    AddShapeCommand(ShapeItem * item, DragOnScene * scene);
 
     void undo() override;
     void redo() override;
@@ -17,4 +17,4 @@ private:
     DragOnScene * scene;
 };
 
-#endif // ADDCOMMAND_H
+#endif // ADDSHAPECOMMAND_H

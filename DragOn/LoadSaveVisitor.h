@@ -4,6 +4,8 @@
 #include "itemvisitors.h"
 #include "shapeitem.h"
 #include "dragonscene.h"
+#include "diagramtextitem.h"
+#include "DragOnSceneItem.h"
 #include<QTextStream>
 #include <QGraphicsItem>
 
@@ -12,10 +14,11 @@ class SaveVisitor : public SceneItemVisitor {
 
 public:
     SaveVisitor(QTextStream &stream) : out(stream) {}
-    void visitSceneItem(QGraphicsItem *item) override;
+    void visitSceneItem(DragOnSceneItem *item) override;
 
 private:
     void visitShapeItem(ShapeItem *item);
+    void visitTextItem(DiagramTextItem *item);
 
     QTextStream &out;
 };

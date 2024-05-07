@@ -9,12 +9,15 @@
 #include<QPainter>
 
 
-#include "shapeitem.h"
+#include "DragOnSceneItem.h"
 #include "CommandManager.h"
+#include "diagramtextitem.h"
+#include <QFont>
+#include <QColor>
 
 
 enum class SceneMode {
-None, AddItem, MoveItem, RotateItem, ResizeItem
+None, AddShapeItem, MoveItem, RotateItem, ResizeItem, InsertText
 };
 
 
@@ -24,8 +27,19 @@ class DragOnScene : public QGraphicsScene
 public:
     explicit DragOnScene(CommandManager * commandManager, QObject *parent = nullptr);
     void setMode(SceneMode mode);
-    void setSelectedItem(ShapeItem * shapeItem);
+    void setSelectedItem(DragOnSceneItem * shapeItem);
     void unSelectIfSelectedItem();
+    void addTextItem(QString text, QFont font, QColor color, QTransform transform);
+    void setTextColor(const QColor &color);
+    QFont currentFont();
+    void setFont(const QFont &font);
+    void setFontSize(int fontSize);
+
+public slots:
+    void editorLostFocus(DiagramTextItem *item);
+
+signals:
+    void textInserted(QGraphicsTextItem *item);
 
 protected:
     QDrag * createDrag(const QString& text);
@@ -38,9 +52,13 @@ protected:
 
 private:
     SceneMode sceneMode{SceneMode::None};
-    ShapeItem * selectedItem{nullptr};
+    DragOnSceneItem * selectedItem{nullptr};
     CommandManager * commandManager;
     QPointF sceneDragStartPos;
+    QFont textItemFont;
+    QColor textItemColor;
+    int textFontSize{12};
 };
+
 
 #endif // DRAGONSCENE_H

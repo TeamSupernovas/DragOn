@@ -2,6 +2,11 @@
 #include "filemanager.h"
 #include <QToolBar>
 #include<QAction>
+#include <QFontComboBox>
+#include <QToolButton>
+#include <QComboBox>
+#include <QColorDialog>
+#include <QIntValidator>
 #include "ExportToPNG.h"
 #include "ExportToJPEG.h"
 
@@ -79,6 +84,7 @@ DragOnToolBar::DragOnToolBar(QMainWindow * mainWindow, DragOnScene * scene, Comm
     createFileToolBar(mainWindow, scene);
     createExportToolBar(mainWindow, scene);
     createEditToolBar(mainWindow, scene, commandManager);
+    createFontToolBar(mainWindow, scene);
 }
 
 void DragOnToolBar::createFileToolBar(QMainWindow *mainWindow,  DragOnScene * scene) {
@@ -102,6 +108,49 @@ void DragOnToolBar::createEditToolBar(QMainWindow *mainWindow,  DragOnScene * sc
     QToolBar * editToolBar = mainWindow->addToolBar(QMainWindow::tr("Edit"));
     editToolBar->addAction(createUndoAction(mainWindow, commandManager));
     editToolBar->addAction(createRedoAction(mainWindow, commandManager));
+}
+
+void DragOnToolBar::createFontToolBar(QMainWindow *mainWindow,  DragOnScene * scene) {
+    QFontComboBox * fontCombo = new QFontComboBox();
+    scene->connect(fontCombo, &QFontComboBox::currentFontChanged,
+                        [fontCombo, scene](){
+        QFont font = scene->currentFont();
+        font.setFamily(fontCombo->currentFont().family());
+        scene->setFont(font);
+    });
+
+    QComboBox * fontSizeCombo = new QComboBox;
+    fontSizeCombo->setEditable(true);
+    for (int i = 8; i < 30; i = i + 2)
+        fontSizeCombo->addItem(QString().setNum(i));
+    QIntValidator *validator = new QIntValidator(2, 64);
+    fontSizeCombo->setValidator(validator);
+    scene->connect(fontSizeCombo, &QComboBox::currentTextChanged, [fontSizeCombo, scene] () {
+        QFont font = scene->currentFont();
+        font.setPointSize(fontSizeCombo->currentText().toInt());
+        scene->setFont(font);
+    });
+
+
+    QToolButton * textColorToolButton = new QToolButton;
+    textColorToolButton->setIcon(QIcon(":/images/textpointer.png"));
+
+    scene->connect(textColorToolButton, &QToolButton::clicked, [scene]() {
+        // Open a QColorDialog to pick a color
+        QColor color = QColorDialog::getColor(Qt::black, nullptr, "Choose a Color");
+
+        // Check if a color was selected
+        if (color.isValid()) {
+            // Print the selected color
+            qDebug() << "Selected color:" << color.name();
+            scene->setTextColor(color);
+        }
+    });
+
+    QToolBar * fontToolBar = mainWindow->addToolBar(QMainWindow::tr("Font"));
+    fontToolBar->addWidget(fontCombo);
+    fontToolBar->addWidget(fontSizeCombo);
+    fontToolBar->addWidget(textColorToolButton);
 }
 
 

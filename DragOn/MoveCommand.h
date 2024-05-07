@@ -2,17 +2,17 @@
 #define MOVECOMMAND_H
 
 #include "Command.h"
-#include "shapeitem.h"
+#include <QGraphicsItem>
 
 class MoveCommand : public Command {
 public:
-    MoveCommand(ShapeItem * item, QPointF moveBy);
+    MoveCommand(QGraphicsItem * item, QPointF moveBy);
 
     void undo() override;
     void redo() override;
 
 private:
-    ShapeItem * item;
+    QGraphicsItem * item;
     QPointF moveBy;
 
 };

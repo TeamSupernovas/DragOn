@@ -6,7 +6,7 @@
 #include <QList>
 
 #include "itemvisitors.h"
-
+#include "DragOnSceneItem.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -27,7 +27,7 @@ enum class ShapeType {
     Pentagon
 };
 
-class ShapeItem: public QGraphicsPolygonItem
+class ShapeItem: public QGraphicsPolygonItem,  public DragOnSceneItem
 {
 public:
     enum { Type = UserType + 15 };

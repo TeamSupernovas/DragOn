@@ -1,6 +1,7 @@
 
 #include "LoadSaveVisitor.h"
 #include "dragonscene.h"
+#include "diagramtextitem.h"
 #include<QStringList>
 #include <QTransform>
 
@@ -63,13 +64,56 @@ QPolygonF deserializePolygon(const QString& serialized) {
     return polygon;
 }
 
+// Function to serialize a QFont to a QString
+QString serializeFont(const QFont& font) {
+    return QString("%1|%2|%3|%4")
+        .arg(font.family())
+        .arg(font.pointSize())
+        .arg(static_cast<int>(font.style()))
+        .arg(font.weight());
+    // Add other properties as needed
+}
 
+// Function to deserialize a QFont from a QString
+QFont deserializeFont(const QString& str) {
+    QStringList parts = str.split("|");
+    if (parts.size() >= 4) {
+        QString family = parts[0];
+        int size = parts[1].toInt();
+        QFont::Style style = static_cast<QFont::Style>(parts[2].toInt());
+        int weight = parts[3].toInt();
+        // Set other properties as needed
+        return QFont(family, size, weight, false); // Assuming italic is always false
+    }
+    return QFont(); // Return default font if deserialization fails
+}
 
-void SaveVisitor::visitSceneItem(QGraphicsItem *item) {
+// Function to serialize a QColor to a QString
+QString serializeColor(const QColor& color) {
+    return QString("%1|%2|%3|%4")
+        .arg(color.red()).arg(color.green()).arg(color.blue()).arg(color.alpha());
+}
+
+// Function to deserialize a QColor from a QString
+QColor deserializeColor(const QString& str) {
+    QStringList parts = str.split("|");
+    if (parts.size() >= 4) {
+        int red = parts[0].toInt();
+        int green = parts[1].toInt();
+        int blue = parts[2].toInt();
+        int alpha = parts[3].toInt();
+        return QColor(red, green, blue, alpha);
+    }
+    return QColor(); // Return default color if deserialization fails
+}
+
+void SaveVisitor::visitSceneItem(DragOnSceneItem *item) {
     if (auto *shapeItem = dynamic_cast<ShapeItem*>(item)) {
         visitShapeItem(shapeItem);
     }
-
+    if (auto *textItem = dynamic_cast<DiagramTextItem*>(item)) {
+        visitTextItem(textItem);
+    }
 }
 
 
@@ -78,29 +122,49 @@ void SaveVisitor::visitShapeItem(ShapeItem *item) {
     out << "ShapeItem::" << static_cast<int>(item->getShapeType()) << "::" << serializePolygon(item->polygon()) << "::" << serializeTransform(item->sceneTransform()) << "\n";
 }
 
-void loadDeserializeShapeItem(DragOnScene *scene, const QString& serialized) {
-    QStringList parts = serialized.split("::");
-    if (parts.size() != 4 or parts[0].compare("ShapeItem") != 0) {
-        // Error handling: Invalid input format
-        qDebug() << "wrong serialization of shapeitem: " << serialized;
-        return;
-    }
+void SaveVisitor::visitTextItem(DiagramTextItem *item) {
 
-    ShapeType shapeType = static_cast<ShapeType>(parts[1].toInt());
-    QPolygonF polygon = deserializePolygon(parts[2]);
-    QTransform transform = deserializeTransform(parts[3]);
-
-    ShapeItem * item = new ShapeItem(shapeType, polygon);
-    item->setTransform(transform);
-
-    scene->addItem(item);
+    out << "TextItem::" << QString::fromUtf8(item->toPlainText().toUtf8().toBase64()) << "::" << serializeFont(item->font()) << "::"  << serializeColor(item->defaultTextColor()) << "::" << serializeTransform(item->sceneTransform()) << "\n";
 }
 
-void loadDeserializeShapeItemList(DragOnScene *scene, const QString& serializedList) {
+void loadDeserializeItem(DragOnScene *scene, const QString& serialized) {
+    QStringList parts = serialized.split("::");
+
+    QString type = parts[0];
+
+    if (type.compare("ShapeItem") == 0) {
+        if (parts.size() < 4) {
+            // Error handling: Invalid input format
+            qDebug() << "wrong serialization of shapeitem: " << serialized;
+            return;
+        }
+        ShapeType shapeType = static_cast<ShapeType>(parts[1].toInt());
+        QPolygonF polygon = deserializePolygon(parts[2]);
+        QTransform transform = deserializeTransform(parts[3]);
+
+        ShapeItem * item = new ShapeItem(shapeType, polygon);
+        item->setTransform(transform);
+
+        scene->addItem(item);
+    } else if (type.compare("TextItem") == 0) {
+        if (parts.size() < 5) {
+            // Error handling: Invalid input format
+            qDebug() << "wrong serialization of shapeitem: " << serialized;
+            return;
+        }
+        QString text = QString::fromUtf8(QByteArray::fromBase64(parts[1].toUtf8()));
+        QFont font = deserializeFont(parts[2]);
+        QColor color = deserializeColor(parts[3]);
+        QTransform transform = deserializeTransform(parts[4]);
+        scene->addTextItem(text, font, color, transform);
+    }
+}
+
+void loadDeserializeItemList(DragOnScene *scene, const QString& serializedList) {
     QStringList itemStrings = serializedList.split("\n", Qt::SkipEmptyParts);
 
     for (const QString& itemString : itemStrings) {
-        loadDeserializeShapeItem(scene, itemString);
+        loadDeserializeItem(scene, itemString);
     }
 }
 
@@ -112,6 +176,6 @@ void SceneLoader::loadToScene(DragOnScene *scene) {
     scene->clear();
 
     // Deserialize and load the serialized list
-    loadDeserializeShapeItemList(scene, serializedList);
+    loadDeserializeItemList(scene, serializedList);
 }
 

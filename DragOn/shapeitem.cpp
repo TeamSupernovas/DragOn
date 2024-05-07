@@ -28,10 +28,6 @@ QPixmap ShapeItem::image() const
 }
 
 
-void  ShapeItem::accept(SceneItemVisitor *visitor) {
-    visitor->visitSceneItem(this);
-}
-
 QVariant ShapeItem::itemChange(GraphicsItemChange change, const QVariant &value){
     return QGraphicsPolygonItem::itemChange(change, value);
 }

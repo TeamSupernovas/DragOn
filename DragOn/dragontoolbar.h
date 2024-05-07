@@ -20,6 +20,7 @@ protected:
     void createFileToolBar(QMainWindow *mainWindow,  DragOnScene * scene);
     void createExportToolBar(QMainWindow *mainWindow,  DragOnScene * scene);
     void createEditToolBar(QMainWindow *mainWindow,  DragOnScene * scene, CommandManager *commandManager);
+    void createFontToolBar(QMainWindow *mainWindow,  DragOnScene * scene);
 
 private:
     DragOnScene * scene;

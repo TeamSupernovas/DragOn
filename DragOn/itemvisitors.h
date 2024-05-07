@@ -1,13 +1,14 @@
 #ifndef ITEMVISITORS_H
 #define ITEMVISITORS_H
 
-#include <QGraphicsItem>
+
+class DragOnSceneItem;
 
 // iterface to visit all shapes
 class SceneItemVisitor
 {
 public:
-    virtual void visitSceneItem(QGraphicsItem *item) = 0;
+    virtual void visitSceneItem(DragOnSceneItem *item) = 0;
     virtual ~SceneItemVisitor() {}
 };
 

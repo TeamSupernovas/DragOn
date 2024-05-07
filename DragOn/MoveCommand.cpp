@@ -1,6 +1,6 @@
-#include<MoveCommand.h>>
+#include<MoveCommand.h>
 
-MoveCommand::MoveCommand(ShapeItem * item, QPointF moveBy)
+MoveCommand::MoveCommand(QGraphicsItem * item, QPointF moveBy)
     : item(item), moveBy(moveBy) {
     setText("Move Item");
 

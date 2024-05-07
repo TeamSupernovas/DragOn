@@ -22,10 +22,9 @@ void FileManager::saveSceneToFile(QMainWindow *mainWindow, DragOnScene * scene) 
 
             SaveVisitor visitor(out);
             foreach (QGraphicsItem *item, scene->items()) {
-                if (auto *shapeItem = dynamic_cast<ShapeItem*>(item)) {
-                    shapeItem->accept(&visitor);
+                if (auto *sceneItem = dynamic_cast<DragOnSceneItem*>(item)) {
+                    sceneItem->accept(&visitor);
                 }
-                // Add more cases as needed for other item types
             }
             file.close();
 
