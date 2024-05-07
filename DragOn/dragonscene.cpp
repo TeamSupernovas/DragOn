@@ -11,7 +11,6 @@
 #include "AddCommand.h"
 #include "MoveCommand.h"
 #include "ResizeCommand.h"
-#include "shapefactory.h"
 
 #include <QCursor>
 
@@ -144,3 +143,23 @@ void DragOnScene::unSelectIfSelectedItem() {
     }
     selectedItem = nullptr;
 }
+
+void DragOnScene::drawBackground(QPainter *painter, const QRectF &rect) {
+    const qreal gridSize = 20.0;  // Grid spacing
+    qreal left = int(rect.left()) - (int(rect.left()) % int(gridSize));
+    qreal top = int(rect.top()) - (int(rect.top()) % int(gridSize));
+
+    QVarLengthArray<QLineF, 100> lines;
+
+    for (qreal x = left; x < rect.right(); x += gridSize) {
+        lines.append(QLineF(x, rect.top(), x, rect.bottom()));
+    }
+
+    for (qreal y = top; y < rect.bottom(); y += gridSize) {
+        lines.append(QLineF(rect.left(), y, rect.right(), y));
+    }
+
+    painter->setPen(QPen(Qt::gray, 0, Qt::DotLine));
+    painter->drawLines(lines.data(), lines.size());
+}
+

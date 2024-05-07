@@ -6,6 +6,7 @@
 #include <QObject>
 #include<QGraphicsSceneMouseEvent>
 #include<QGraphicsSceneDragDropEvent>
+#include<QPainter>
 
 
 #include "shapeitem.h"
@@ -33,6 +34,7 @@ protected:
     void dropEvent(QGraphicsSceneDragDropEvent *event) override;
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
+    void drawBackground(QPainter *painter, const QRectF &rect) override;
 
 private:
     SceneMode sceneMode{SceneMode::None};
