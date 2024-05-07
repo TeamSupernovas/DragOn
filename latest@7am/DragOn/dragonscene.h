@@ -8,7 +8,7 @@
 #include<QGraphicsSceneDragDropEvent>
 #include<QPainter>
 
-
+#include "itemvisitors.h"
 #include "DragOnSceneItem.h"
 #include "CommandManager.h"
 #include "diagramtextitem.h"
@@ -37,6 +37,7 @@ public:
     CommandManager* getCommandManager() {
         return commandManager;
     }
+    void  accept(SceneItemVisitor *visitor);
 
 public slots:
     void editorLostFocus(DiagramTextItem *item);

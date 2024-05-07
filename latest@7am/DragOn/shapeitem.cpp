@@ -20,7 +20,7 @@ QPixmap ShapeItem::image() const
     pixmap.fill(Qt::transparent);
     QPainter painter(&pixmap);
     painter.translate(-boundingRect.topLeft());
-    painter.setPen(QPen(Qt::black, 5));
+    painter.setPen(QPen(Qt::black, 2));
     painter.setBrush(color); // Set the color
     painter.drawPolygon(polygon()); // Fill the polygon with color
 

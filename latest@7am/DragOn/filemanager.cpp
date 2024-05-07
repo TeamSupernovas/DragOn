@@ -21,11 +21,7 @@ void FileManager::saveSceneToFile(QMainWindow *mainWindow, DragOnScene * scene) 
             QTextStream out(&file);
 
             SaveVisitor visitor(out);
-            foreach (QGraphicsItem *item, scene->items()) {
-                if (auto *sceneItem = dynamic_cast<DragOnSceneItem*>(item)) {
-                    sceneItem->accept(&visitor);
-                }
-            }
+            scene->accept(&visitor);
             file.close();
 
         }

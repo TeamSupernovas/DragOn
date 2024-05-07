@@ -50,6 +50,7 @@ HEADERS += \
     LoadSaveVisitor.h \
     MoveCommand.h \
     ResizeCommand.h \
+    SceneModeState.h \
     colorcommand.h \
     diagramtextitem.h \
     dragonscene.h \

@@ -206,7 +206,7 @@ void DragOnScene::unSelectIfSelectedItem() {
 }
 
 void DragOnScene::drawBackground(QPainter *painter, const QRectF &rect) {
-    const qreal gridSize = 20.0;  // Grid spacing
+    const qreal gridSize = 10.0;  // Grid spacing
     qreal left = int(rect.left()) - (int(rect.left()) % int(gridSize));
     qreal top = int(rect.top()) - (int(rect.top()) % int(gridSize));
 
@@ -255,5 +255,13 @@ void DragOnScene::setFont(const QFont &font)
         }
     }
 
+}
+
+void DragOnScene::accept(SceneItemVisitor *visitor) {
+    foreach (QGraphicsItem *item, items()) {
+        if (auto *sceneItem = dynamic_cast<DragOnSceneItem*>(item)) {
+            sceneItem->accept(visitor);
+        }
+    }
 }
 
