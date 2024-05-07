@@ -10,7 +10,6 @@
 
 #include "itemvisitors.h"
 #include "DragOnSceneItem.h"
-#include "CommandManager.h"
 #include "diagramtextitem.h"
 #include <QFont>
 #include <QColor>
@@ -25,7 +24,7 @@ class DragOnScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit DragOnScene(CommandManager * commandManager, QObject *parent = nullptr);
+    explicit DragOnScene(QObject *parent = nullptr);
     void setMode(SceneMode mode);
     void setSelectedItem(DragOnSceneItem * shapeItem);
     void unSelectIfSelectedItem();
@@ -34,9 +33,6 @@ public:
     QFont currentFont();
     void setFont(const QFont &font);
     void setFontSize(int fontSize);
-    CommandManager* getCommandManager() {
-        return commandManager;
-    }
     void  accept(SceneItemVisitor *visitor);
 
 public slots:
@@ -57,7 +53,6 @@ protected:
 private:
     SceneMode sceneMode{SceneMode::None};
     DragOnSceneItem * selectedItem{nullptr};
-    CommandManager * commandManager;
     QPointF sceneDragStartPos;
     QFont textItemFont;
     QColor textItemColor;

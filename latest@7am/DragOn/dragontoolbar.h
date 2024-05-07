@@ -4,7 +4,6 @@
 
 #include <QMainWindow>
 #include "dragonscene.h"
-#include "CommandManager.h"
 #include "filemanager.h"
 #include "ExportStrategy.h"
 
@@ -12,12 +11,12 @@
 
 class DragOnToolBar {
 public:
-    DragOnToolBar(QMainWindow *mainWindow, DragOnScene *scene, CommandManager *commandManager);
+    DragOnToolBar(QMainWindow *mainWindow, DragOnScene *scene);
 
 protected:
     void createFileToolBar(QMainWindow *mainWindow, DragOnScene *scene);
     void createExportToolBar(QMainWindow *mainWindow, DragOnScene *scene);
-    void createEditToolBar(QMainWindow *mainWindow, DragOnScene *scene, CommandManager *commandManager);
+    void createEditToolBar(QMainWindow *mainWindow, DragOnScene *scene);
     void createFontToolBar(QMainWindow *mainWindow, DragOnScene *scene);
     void createColorToolBar(QMainWindow *mainWindow, DragOnScene *scene);
     void createRotateToolBar(QMainWindow *mainWindow, DragOnScene *scene); // Declaration for createRotateToolBar

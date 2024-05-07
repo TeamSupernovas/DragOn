@@ -5,8 +5,6 @@
 
 class CommandManager {
 public:
-    CommandManager();
-    ~CommandManager();
 
     void executeCommand(Command * command);
     void undo();
@@ -14,7 +12,13 @@ public:
     bool canUndo() const;
     bool canRedo() const;
 
+    static CommandManager *instance();
+
 private:
+    CommandManager();
+    ~CommandManager();
+    static CommandManager *single_instance;
+
     QUndoStack undoStack;
 };
 

@@ -9,6 +9,7 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QMimeData>
+#include "CommandManager.h"
 #include "AddShapeCommand.h"
 #include "AddTextCommand.h"
 #include "MoveCommand.h"
@@ -24,8 +25,8 @@ bool canResize(QRectF sceneBoundingRect, QPointF eventScenePos) {
 }
 
 
-DragOnScene::DragOnScene(CommandManager * commandManager, QObject *parent)
-    : QGraphicsScene(parent), commandManager(commandManager), textItemColor(Qt::black)
+DragOnScene::DragOnScene(QObject *parent)
+    : QGraphicsScene(parent), textItemColor(Qt::black)
 {
 }
 
@@ -114,14 +115,14 @@ void DragOnScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
             textItem->setPos(event->scenePos());
             setSelectedItem(textItem);
             qDebug() << "insert text item now";
-            commandManager->executeCommand(new AddTextCommand(textItem, this));
+            CommandManager::instance()->executeCommand(new AddTextCommand(textItem, this));
             sceneMode = SceneMode::None;
             event->accept();
         } else if (selectedItem) {
             if (sceneMode == SceneMode::AddShapeItem) {
                 if (auto *shapeItem = dynamic_cast<ShapeItem*>(selectedItem)) {
                     shapeItem->setPos(event->scenePos());
-                    commandManager->executeCommand(new AddShapeCommand(shapeItem, this));
+                    CommandManager::instance()->executeCommand(new AddShapeCommand(shapeItem, this));
                     sceneMode = SceneMode::None;
                     event->accept();
                 }
@@ -131,7 +132,7 @@ void DragOnScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
                     QPointF moveBy = dropPos - sceneDragStartPos;
                     qDebug() << "moveBy: " << moveBy;
                     if (moveBy.x() || moveBy.y()) {
-                        commandManager->executeCommand(new MoveCommand(graphicsItem, moveBy));
+                        CommandManager::instance()->executeCommand(new MoveCommand(graphicsItem, moveBy));
                     }
                     sceneMode = SceneMode::None;
                     event->accept();
@@ -140,7 +141,7 @@ void DragOnScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
                 if (auto *shapeItem = dynamic_cast<ShapeItem*>(selectedItem)) {
                     QPointF newBottomRight = event->scenePos() - shapeItem->pos();
                     QPointF changeBoundingRectSizeBy = newBottomRight - shapeItem->polygon().boundingRect().bottomRight();
-                    commandManager->executeCommand(new ResizeCommand(shapeItem, changeBoundingRectSizeBy));
+                    CommandManager::instance()->executeCommand(new ResizeCommand(shapeItem, changeBoundingRectSizeBy));
                     sceneMode = SceneMode::None;
                     event->accept();
                 }
@@ -233,7 +234,7 @@ void DragOnScene::setTextColor(const QColor &color)
     textItemColor = color;
     if (selectedItem) {
         if (auto *textItem = dynamic_cast<DiagramTextItem*>(selectedItem)) {
-            commandManager->executeCommand(new ChangeTextColorCommand(textItem, color));
+            CommandManager::instance()->executeCommand(new ChangeTextColorCommand(textItem, color));
         }
     }
 }
@@ -247,7 +248,7 @@ void DragOnScene::setFont(const QFont &font)
     textItemFont = font;
     if (selectedItem) {
         if (auto *textItem = dynamic_cast<DiagramTextItem*>(selectedItem)) {
-            commandManager->executeCommand(new ChangeTextFontCommand(textItem, font));
+            CommandManager::instance()->executeCommand(new ChangeTextFontCommand(textItem, font));
         }
     }
 

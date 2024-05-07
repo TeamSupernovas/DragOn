@@ -5,13 +5,12 @@
 DragOnMainWindow::DragOnMainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    CommandManager * commandManager = new CommandManager();
-    scene = new DragOnScene(commandManager);
+    scene = new DragOnScene();
     scene->setSceneRect(QRectF(0, 0, 1500, 1000));
 
     view = new DragOnView(scene);
     sidebar = new SideBar(this, scene, view);
-    toolbar = new DragOnToolBar(this, scene, commandManager);
+    toolbar = new DragOnToolBar(this, scene);
 
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(sidebar);

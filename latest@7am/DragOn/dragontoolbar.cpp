@@ -11,26 +11,27 @@
 #include "ExportToJPEG.h"
 #include "colorcommand.h"
 #include "rotationcommand.h"
+#include "CommandManager.h"
 
 // Function to create an undo action
-QAction *createUndoAction(QMainWindow *mainWindow, CommandManager *commandManager) {
+QAction *createUndoAction(QMainWindow *mainWindow) {
     QAction *undoAction = new QAction(QIcon(":/images/undo.png"), QMainWindow::tr("&Undo"), mainWindow);
     undoAction->setShortcut(QKeySequence::Undo);
     undoAction->setStatusTip(QMainWindow::tr("Undo last action"));
-    mainWindow->connect(undoAction, &QAction::triggered, [commandManager]() {
-        commandManager->undo();
+    mainWindow->connect(undoAction, &QAction::triggered, []() {
+        CommandManager::instance()->undo();
     });
 
     return undoAction;
 }
 
 // Function to create a redo action
-QAction *createRedoAction(QMainWindow *mainWindow, CommandManager *commandManager) {
+QAction *createRedoAction(QMainWindow *mainWindow) {
     QAction *redoAction = new QAction(QIcon(":/images/redo.png"), QMainWindow::tr("&Redo"), mainWindow);
     redoAction->setShortcut(QKeySequence::Redo);
     redoAction->setStatusTip(QMainWindow::tr("Redo last undo"));
-    mainWindow->connect(redoAction, &QAction::triggered, [commandManager]() {
-        commandManager->redo();
+    mainWindow->connect(redoAction, &QAction::triggered, []() {
+        CommandManager::instance()->redo();
     });
 
     return redoAction;
@@ -91,7 +92,7 @@ QAction *createColorAction(QMainWindow *mainWindow, DragOnScene *scene) {
                 ShapeItem *shapeItem = dynamic_cast<ShapeItem*>(item);
                 if (shapeItem) {
                     QColor oldColor = shapeItem->getColor();
-                    scene->getCommandManager()->executeCommand(new ColorCommand(shapeItem, oldColor, color));
+                    CommandManager::instance()->executeCommand(new ColorCommand(shapeItem, oldColor, color));
                 }
             }
             scene->setTextColor(color);
@@ -116,7 +117,7 @@ QAction *createRotateAction(QMainWindow *mainWindow, DragOnScene *scene, qreal r
                 shapeItem->setTransformOriginPoint(rotationPoint);
 
                 // Execute the rotate command
-                scene->getCommandManager()->executeCommand(new RotateCommand(shapeItem, rotationAngle));
+                CommandManager::instance()->executeCommand(new RotateCommand(shapeItem, rotationAngle));
             }
         }
     });
@@ -129,13 +130,13 @@ QAction *createRotateAction(QMainWindow *mainWindow, DragOnScene *scene, qreal r
 
 
 // Constructor for the DragOnToolBar class
-DragOnToolBar::DragOnToolBar(QMainWindow *mainWindow, DragOnScene *scene, CommandManager *commandManager) {
+DragOnToolBar::DragOnToolBar(QMainWindow *mainWindow, DragOnScene *scene) {
     filemanager = new FileManager;
     exportStrategies.push_back(new ExportToPNG());
     exportStrategies.push_back(new ExportToJPEG());
     createFileToolBar(mainWindow, scene);
     createExportToolBar(mainWindow, scene);
-    createEditToolBar(mainWindow, scene, commandManager);
+    createEditToolBar(mainWindow, scene);
     createFontToolBar(mainWindow, scene);
     createColorToolBar(mainWindow, scene);
     createRotateToolBar(mainWindow, scene);
@@ -160,10 +161,10 @@ void DragOnToolBar::createExportToolBar(QMainWindow *mainWindow, DragOnScene *sc
 }
 
 // Function to create the edit tool bar
-void DragOnToolBar::createEditToolBar(QMainWindow *mainWindow, DragOnScene *scene, CommandManager *commandManager) {
+void DragOnToolBar::createEditToolBar(QMainWindow *mainWindow, DragOnScene *scene) {
     QToolBar *editToolBar = mainWindow->addToolBar(QMainWindow::tr("Edit"));
-    editToolBar->addAction(createUndoAction(mainWindow, commandManager));
-    editToolBar->addAction(createRedoAction(mainWindow, commandManager));
+    editToolBar->addAction(createUndoAction(mainWindow));
+    editToolBar->addAction(createRedoAction(mainWindow));
 }
 
 // Function to create the font tool bar
@@ -221,7 +222,7 @@ QAction *createRotateAction(QMainWindow *mainWindow, DragOnScene *scene, qreal r
                 shapeItem->setTransformOriginPoint(rotationPoint);
 
                 // Execute the rotate command
-                scene->getCommandManager()->executeCommand(new RotateCommand(shapeItem, rotationAngle));
+                CommandManager::instance()->executeCommand(new RotateCommand(shapeItem, rotationAngle));
             }
         }
     });
