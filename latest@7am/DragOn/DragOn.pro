@@ -11,63 +11,61 @@ CONFIG += c++17
 SOURCES += \
     AddShapeCommand.cpp \
     AddTextCommand.cpp \
+    ChangeShapeColorCommand.cpp \
     ChangeTextColorCommand.cpp \
     ChangeTextFontCommand.cpp \
     Command.cpp \
     CommandManager.cpp \
-    ExportToJPEG.cpp \
-    LoadSaveVisitor.cpp \
-    MoveCommand.cpp \
-    ResizeCommand.cpp \
-    ChangeShapeColorCommand.cpp \
-    TextItem.cpp \
+    DragOnMainWindow.cpp \
     DragOnScene.cpp \
     DragOnToolbar.cpp \
     DragOnView.cpp \
+    ExportToJPEG.cpp \
     ExportToPNG.cpp \
     FileManager.cpp \
     IconButton.cpp \
+    LoadSaveVisitor.cpp \
     main.cpp \
-    DragOnMainWindow.cpp \
+    MoveCommand.cpp \
     PixmapGenerator.cpp \
-    RotationCommand.cpp \
+    ResizeCommand.cpp \
+    RotateCommand.cpp \
     ShapeFactory.cpp \
     ShapeItem.cpp \
-    Sidebar.cpp
+    SideBar.cpp \
+    TextItem.cpp
 
 HEADERS += \
     AddShapeCommand.h \
     AddTextCommand.h \
+    ChangeShapeColorCommand.h \
     ChangeTextColorCommand.h \
     ChangeTextFontCommand.h \
-    ChangeShapeColorCommand.h \
-    ExportToPNG.h \
     Command.h \
     CommandManager.h \
     DragOnMainWindow.h \
-    DragOnSceneItem.h \
-    ExportToJPEG.h \
-    ExportStrategy.h \
-    ItemVisitors.h \
-    LoadSaveVisitor.h \
-    MoveCommand.h \
-    ResizeCommand.h \
-    SceneMode.h \
-    SceneModeState.h \
-    Serializable.h \
-    TextItem.h \
     DragOnScene.h \
+    DragOnSceneItem.h \
     DragOnToolbar.h \
     DragOnView.h \
     ExportStrategy.h \
+    ExportToJPEG.h \
     ExportToPNG.h \
     FileManager.h \
     IconButton.h \
+    ItemVisitors.h \
+    LoadSaveVisitor.h \
+    MoveCommand.h \
     PixmapGenerator.h \
-    RotationCommand.h \
+    ResizeCommand.h \
+    RotateCommand.h \
+    SceneMode.h \
+    SceneModeState.h \
+    Serializable.h \
     ShapeFactory.h \
     ShapeItem.h \
-    Sidebar.h
+    SideBar.h \
+    TextItem.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

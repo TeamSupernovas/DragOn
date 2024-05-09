@@ -10,7 +10,7 @@
 #include "ExportToPNG.h"
 #include "ExportToJPEG.h"
 #include "ChangeShapeColorCommand.h"
-#include "RotationCommand.h"
+#include "RotateCommand.h"
 #include "CommandManager.h"
 
 // Function to create an undo action
