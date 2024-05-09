@@ -1,5 +1,5 @@
 #include "DragOnMainWindow.h"
-#include "dragonview.h"
+#include "DragOnView.h"
 #include <QHBoxLayout>
 
 DragOnMainWindow::DragOnMainWindow(QWidget *parent)
@@ -23,9 +23,6 @@ DragOnMainWindow::DragOnMainWindow(QWidget *parent)
     setCentralWidget(widget);
     setWindowTitle(tr("Drag On"));
     setUnifiedTitleAndToolBarOnMac(true);
-
-
-
 }
 
 DragOnMainWindow::~DragOnMainWindow() {}

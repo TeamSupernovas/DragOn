@@ -4,21 +4,16 @@
 #include <QDrag>
 #include <QGraphicsScene>
 #include <QObject>
-#include<QGraphicsSceneMouseEvent>
-#include<QGraphicsSceneDragDropEvent>
-#include<QPainter>
-
-#include "itemvisitors.h"
-#include "DragOnSceneItem.h"
-#include "diagramtextitem.h"
+#include <QGraphicsSceneMouseEvent>
+#include <QGraphicsSceneDragDropEvent>
+#include <QPainter>
 #include <QFont>
 #include <QColor>
 
-
-enum class SceneMode {
-None, AddShapeItem, MoveItem, RotateItem, ResizeItem, InsertText
-};
-
+#include "ItemVisitors.h"
+#include "DragOnSceneItem.h"
+#include "TextItem.h"
+#include "SceneMode.h"
 
 class DragOnScene : public QGraphicsScene
 {
@@ -28,7 +23,7 @@ public:
     void setMode(SceneMode mode);
     void setSelectedItem(DragOnSceneItem * shapeItem);
     void unSelectIfSelectedItem();
-    void addTextItem(DiagramTextItem * textItem);
+    void addTextItem(TextItem * textItem);
     void setTextColor(const QColor &color);
     QFont currentFont();
     void setFont(const QFont &font);
@@ -36,7 +31,7 @@ public:
     void  accept(SceneItemVisitor *visitor);
 
 public slots:
-    void editorLostFocus(DiagramTextItem *item);
+    void editorLostFocus(TextItem *item);
 
 signals:
     void textInserted(QGraphicsTextItem *item);

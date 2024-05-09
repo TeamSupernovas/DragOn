@@ -1,14 +1,15 @@
 #ifndef CHANGETEXTFONTCOMMAND_H
 #define CHANGETEXTFONTCOMMAND_H
 
-#include "Command.h"
-#include  "diagramtextitem.h"
 #include <QFont>
+
+#include "Command.h"
+#include "TextItem.h"
 
 class ChangeTextFontCommand: public Command
 {
 public:
-    ChangeTextFontCommand(DiagramTextItem * item, QFont font);
+    ChangeTextFontCommand(TextItem * item, QFont font);
     void undo() override;
     void redo() override;
 
@@ -16,7 +17,7 @@ protected:
     void swap();
 
 private:
-    DiagramTextItem * item;
+    TextItem * item;
     QFont prevFont;
 };
 

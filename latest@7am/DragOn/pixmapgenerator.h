@@ -3,7 +3,7 @@
 
 #include <QPixmap>
 #include <QGraphicsScene>
-#include "dragonscene.h"
+#include "DragOnScene.h"
 
 class PixmapGenerator
 {

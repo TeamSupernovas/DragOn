@@ -3,8 +3,9 @@
 #define DRAGONTOOLBAR_H
 
 #include <QMainWindow>
-#include "dragonscene.h"
-#include "filemanager.h"
+
+#include "DragOnScene.h"
+#include "FileManager.h"
 #include "ExportStrategy.h"
 
 #include <vector>
@@ -16,13 +17,13 @@ public:
 protected:
     void createFileToolBar(QMainWindow *mainWindow, DragOnScene *scene);
     void createExportToolBar(QMainWindow *mainWindow, DragOnScene *scene);
-    void createEditToolBar(QMainWindow *mainWindow, DragOnScene *scene);
+    void createEditToolBar(QMainWindow *mainWindow);
     void createFontToolBar(QMainWindow *mainWindow, DragOnScene *scene);
     void createColorToolBar(QMainWindow *mainWindow, DragOnScene *scene);
     void createRotateToolBar(QMainWindow *mainWindow, DragOnScene *scene); // Declaration for createRotateToolBar
 
 private:
-    DragOnScene *scene;
+    //DragOnScene *scene;
     FileManager *filemanager;
     std::vector<ExportStrategy *> exportStrategies;
 };

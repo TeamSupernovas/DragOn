@@ -1,7 +1,8 @@
-#include "shapeitem.h"
 #include <QPainter>
 #include <QStyle>
-#include<QStyleOptionGraphicsItem>
+#include <QStyleOptionGraphicsItem>
+
+#include "ShapeItem.h"
 
 ShapeItem::ShapeItem(ShapeType shapeType, QPolygonF polygon, const QColor &color, QGraphicsItem *parent)
     : QGraphicsPolygonItem(polygon, parent), shapeType(shapeType), color(color), originalColor(color) {
@@ -73,4 +74,8 @@ void ShapeItem::rotateAroundCenter(qreal angle)
     this->setTransformOriginPoint(center);
     // Apply the rotation
     this->setRotation(this->rotation() + angle);
+}
+
+void  ShapeItem::accept(SceneItemVisitor *visitor) {
+    visitor->visitShapeItem(this);
 }

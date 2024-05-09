@@ -2,18 +2,18 @@
 #define ADDTEXTCOMMAND_H
 
 #include "Command.h"
-#include "dragonscene.h"
-#include  "diagramtextitem.h"
+#include "DragOnScene.h"
+#include "TextItem.h"
 
 class AddTextCommand : public Command
 {
 public:
-    AddTextCommand(DiagramTextItem * item, DragOnScene * scene);
+    AddTextCommand(TextItem * item, DragOnScene * scene);
     void undo() override;
     void redo() override;
 
 private:
-    DiagramTextItem * item;
+    TextItem * item;
     DragOnScene * scene;
 };
 

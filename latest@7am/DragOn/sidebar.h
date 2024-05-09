@@ -7,8 +7,8 @@
 #include <QGraphicsView>
 #include <QToolBox>
 
-#include "shapeitem.h"
-#include "dragonscene.h"
+#include "ShapeItem.h"
+#include "DragOnScene.h"
 
 
 class SideBar: public QToolBox

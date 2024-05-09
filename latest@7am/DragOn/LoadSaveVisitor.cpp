@@ -1,8 +1,8 @@
-#include "LoadSaveVisitor.h"
-#include "dragonscene.h"
-#include "diagramtextitem.h"
 #include <QStringList>
 #include <QTransform>
+#include "LoadSaveVisitor.h"
+#include "DragOnScene.h"
+#include "TextItem.h"
 
 QString serializeTransform(const QTransform& transform) {
     QString serialized;
@@ -99,20 +99,20 @@ QColor deserializeColor(const QString& str) {
     return QColor();
 }
 
-void SaveVisitor::visitSceneItem(DragOnSceneItem *item) {
-    if (auto *shapeItem = dynamic_cast<ShapeItem*>(item)) {
-        visitShapeItem(shapeItem);
-    }
-    if (auto *textItem = dynamic_cast<DiagramTextItem*>(item)) {
-        visitTextItem(textItem);
-    }
-}
+// void SaveVisitor::visitSceneItem(DragOnSceneItem *item) {
+//     if (auto *shapeItem = dynamic_cast<ShapeItem*>(item)) {
+//         visitShapeItem(shapeItem);
+//     }
+//     if (auto *textItem = dynamic_cast<DiagramTextItem*>(item)) {
+//         visitTextItem(textItem);
+//     }
+// }
 
 void SaveVisitor::visitShapeItem(ShapeItem *item) {
     out << "ShapeItem::" << static_cast<int>(item->getShapeType()) << "::" << serializePolygon(item->polygon()) << "::" << serializeTransform(item->sceneTransform()) << "::" << serializeColor(item->getColor()) << "\n";
 }
 
-void SaveVisitor::visitTextItem(DiagramTextItem *item) {
+void SaveVisitor::visitTextItem(TextItem *item) {
     out << "TextItem::" << QString::fromUtf8(item->toPlainText().toUtf8().toBase64()) << "::" << serializeFont(item->font()) << "::"  << serializeColor(item->defaultTextColor()) << "::" << serializeTransform(item->sceneTransform()) << "\n";
 }
 
@@ -148,7 +148,7 @@ void loadDeserializeItem(DragOnScene *scene, const QString& serialized) {
         QColor color = deserializeColor(parts[3]);
         QTransform transform = deserializeTransform(parts[4]);
         QPointF pos(transform.dx(), transform.dy());
-        DiagramTextItem *textItem = DiagramTextItem::createTextItem(text, font, color);
+        TextItem *textItem = TextItem::createTextItem(text, font, color);
         textItem->setPos(pos);
         scene->addTextItem(textItem);
     }

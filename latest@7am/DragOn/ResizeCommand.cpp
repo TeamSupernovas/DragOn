@@ -1,6 +1,5 @@
 #include "ResizeCommand.h"
-
-#include "shapefactory.h"
+#include "ShapeFactory.h"
 
 ResizeCommand::ResizeCommand(ShapeItem * item, QPointF changeBoundingRectSizeBy):
     item(item), changeBoundingRectSizeBy(changeBoundingRectSizeBy) {}

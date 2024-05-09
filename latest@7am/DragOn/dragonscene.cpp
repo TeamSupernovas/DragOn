@@ -1,10 +1,10 @@
 
-#include "dragonscene.h"
+#include "DragOnScene.h"
 
-#include<QGraphicsItem>
-#include<QMimeData>
+#include <QGraphicsItem>
+#include <QMimeData>
 #include <QTextCursor>
-#include<QDrag>
+#include <QDrag>
 #include <QGraphicsRectItem>
 #include <QDragEnterEvent>
 #include <QDropEvent>
@@ -14,7 +14,7 @@
 #include "AddTextCommand.h"
 #include "MoveCommand.h"
 #include "ResizeCommand.h"
-#include "diagramtextitem.h"
+#include "TextItem.h"
 #include "ChangeTextColorCommand.h"
 #include "ChangeTextFontCommand.h"
 
@@ -107,7 +107,7 @@ void DragOnScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
         QString text = mimeData->text();
         qDebug() << "Dropped text:" << text;
         if (sceneMode == SceneMode::InsertText) {
-            DiagramTextItem * textItem = DiagramTextItem::createTextItem(
+            TextItem * textItem = TextItem::createTextItem(
                 QString("lorem ipsum"),
                 textItemFont,
                 textItemColor
@@ -151,7 +151,7 @@ void DragOnScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
     QGraphicsScene::dropEvent(event);
 }
 
-void DragOnScene::editorLostFocus(DiagramTextItem *item)
+void DragOnScene::editorLostFocus(TextItem *item)
 {
     QTextCursor cursor = item->textCursor();
     cursor.clearSelection();
@@ -222,9 +222,9 @@ void DragOnScene::drawBackground(QPainter *painter, const QRectF &rect) {
 }
 
 
-void DragOnScene::addTextItem(DiagramTextItem * textItem) {
+void DragOnScene::addTextItem(TextItem * textItem) {
     textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
-    connect(textItem, &DiagramTextItem::lostFocus,
+    connect(textItem, &TextItem::lostFocus,
             this, &DragOnScene::editorLostFocus);
     addItem(textItem);
 }
@@ -233,7 +233,7 @@ void DragOnScene::setTextColor(const QColor &color)
 {
     textItemColor = color;
     if (selectedItem) {
-        if (auto *textItem = dynamic_cast<DiagramTextItem*>(selectedItem)) {
+        if (auto *textItem = dynamic_cast<TextItem*>(selectedItem)) {
             CommandManager::instance()->executeCommand(new ChangeTextColorCommand(textItem, color));
         }
     }
@@ -247,7 +247,7 @@ void DragOnScene::setFont(const QFont &font)
 {
     textItemFont = font;
     if (selectedItem) {
-        if (auto *textItem = dynamic_cast<DiagramTextItem*>(selectedItem)) {
+        if (auto *textItem = dynamic_cast<TextItem*>(selectedItem)) {
             CommandManager::instance()->executeCommand(new ChangeTextFontCommand(textItem, font));
         }
     }

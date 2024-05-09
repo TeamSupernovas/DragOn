@@ -1,4 +1,4 @@
-#include "shapefactory.h"
+#include "ShapeFactory.h"
 
 
 QPolygonF createRectanglePolygon(const ShapeParameters& params) {

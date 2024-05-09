@@ -1,15 +1,12 @@
 #ifndef DRAGONMAINWINDOW_H
 #define DRAGONMAINWINDOW_H
 
-
-
 #include <QMainWindow>
 #include <QWidget>
 
-#include "dragonscene.h"
-#include "sidebar.h"
-#include "dragontoolbar.h"
-
+#include "DragOnScene.h"
+#include "Sidebar.h"
+#include "DragOnToolbar.h"
 
 QT_BEGIN_NAMESPACE
 class QAction;

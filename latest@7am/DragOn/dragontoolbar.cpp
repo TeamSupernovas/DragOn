@@ -1,5 +1,5 @@
-#include "dragontoolbar.h"
-#include "filemanager.h"
+#include "DragOnToolbar.h"
+#include "FileManager.h"
 #include <QToolBar>
 #include <QAction>
 #include <QFontComboBox>
@@ -9,8 +9,8 @@
 #include <QIntValidator>
 #include "ExportToPNG.h"
 #include "ExportToJPEG.h"
-#include "colorcommand.h"
-#include "rotationcommand.h"
+#include "ChangeShapeColorCommand.h"
+#include "RotationCommand.h"
 #include "CommandManager.h"
 
 // Function to create an undo action
@@ -90,9 +90,9 @@ QAction *createColorAction(QMainWindow *mainWindow, DragOnScene *scene) {
             QList<QGraphicsItem*> selectedItems = scene->selectedItems();
             for (QGraphicsItem *item : selectedItems) {
                 ShapeItem *shapeItem = dynamic_cast<ShapeItem*>(item);
-                if (shapeItem) {
-                    QColor oldColor = shapeItem->getColor();
-                    CommandManager::instance()->executeCommand(new ColorCommand(shapeItem, oldColor, color));
+                if (shapeItem)
+                {
+                    CommandManager::instance()->executeCommand(new ChangeShapeColorCommand(shapeItem, color));
                 }
             }
             scene->setTextColor(color);
@@ -136,7 +136,7 @@ DragOnToolBar::DragOnToolBar(QMainWindow *mainWindow, DragOnScene *scene) {
     exportStrategies.push_back(new ExportToJPEG());
     createFileToolBar(mainWindow, scene);
     createExportToolBar(mainWindow, scene);
-    createEditToolBar(mainWindow, scene);
+    createEditToolBar(mainWindow);
     createFontToolBar(mainWindow, scene);
     createColorToolBar(mainWindow, scene);
     createRotateToolBar(mainWindow, scene);
@@ -161,7 +161,7 @@ void DragOnToolBar::createExportToolBar(QMainWindow *mainWindow, DragOnScene *sc
 }
 
 // Function to create the edit tool bar
-void DragOnToolBar::createEditToolBar(QMainWindow *mainWindow, DragOnScene *scene) {
+void DragOnToolBar::createEditToolBar(QMainWindow *mainWindow) {
     QToolBar *editToolBar = mainWindow->addToolBar(QMainWindow::tr("Edit"));
     editToolBar->addAction(createUndoAction(mainWindow));
     editToolBar->addAction(createRedoAction(mainWindow));

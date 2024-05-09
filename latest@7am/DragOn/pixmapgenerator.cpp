@@ -1,10 +1,8 @@
-#include "pixmapgenerator.h"
-
-
-
 #include <QGraphicsScene>
 #include <QPixmap>
 #include <QPainter>
+
+#include "PixmapGenerator.h"
 
 
 QPixmap PixmapGenerator::createPixmapFromScene(DragOnScene *scene) {

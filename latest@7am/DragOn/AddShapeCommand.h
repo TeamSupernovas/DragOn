@@ -2,8 +2,8 @@
 #define ADDSHAPECOMMAND_H
 
 #include "Command.h"
-#include "dragonscene.h"
-#include "shapeitem.h"
+#include "DragOnScene.h"
+#include "ShapeItem.h"
 
 class AddShapeCommand : public Command {
 public:

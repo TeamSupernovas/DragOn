@@ -3,7 +3,6 @@
 
 #include <QUndoCommand>
 
-
 class Command : public QUndoCommand {
 public:
     Command();

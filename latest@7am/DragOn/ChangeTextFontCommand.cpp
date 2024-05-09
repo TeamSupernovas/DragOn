@@ -1,6 +1,6 @@
 #include "ChangeTextFontCommand.h"
 
-ChangeTextFontCommand::ChangeTextFontCommand(DiagramTextItem* item, QFont font)
+ChangeTextFontCommand::ChangeTextFontCommand(TextItem* item, QFont font)
     : item(item), prevFont(font) {
     setText("Change text font");
 }

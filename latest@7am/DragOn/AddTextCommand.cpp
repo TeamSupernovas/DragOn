@@ -1,6 +1,6 @@
 #include "AddTextCommand.h"
 
-AddTextCommand::AddTextCommand(DiagramTextItem* item, DragOnScene * scene)
+AddTextCommand::AddTextCommand(TextItem* item, DragOnScene * scene)
     : item(item), scene(scene) {
     setText("Add Text Item");
 

@@ -1,4 +1,3 @@
-#include "sidebar.h"
 #include <QAbstractButton>
 #include <QGridLayout>
 #include <QToolButton>
@@ -6,8 +5,9 @@
 #include <QMimeData>
 #include <QDrag>
 #include <QLabel>
-#include "shapefactory.h"
-#include "iconbutton.h"
+#include "ShapeFactory.h"
+#include "IconButton.h"
+#include "Sidebar.h"
 
 const int InsertTextButton = 10;
 

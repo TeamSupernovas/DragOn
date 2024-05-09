@@ -19,27 +19,28 @@ SOURCES += \
     LoadSaveVisitor.cpp \
     MoveCommand.cpp \
     ResizeCommand.cpp \
-    colorcommand.cpp \
-    diagramtextitem.cpp \
-    dragonscene.cpp \
-    dragontoolbar.cpp \
-    dragonview.cpp \
+    ChangeShapeColorCommand.cpp \
+    TextItem.cpp \
+    DragOnScene.cpp \
+    DragOnToolbar.cpp \
+    DragOnView.cpp \
     ExportToPNG.cpp \
-    filemanager.cpp \
-    iconbutton.cpp \
+    FileManager.cpp \
+    IconButton.cpp \
     main.cpp \
     DragOnMainWindow.cpp \
-    pixmapgenerator.cpp \
-    rotationcommand.cpp \
-    shapefactory.cpp \
-    shapeitem.cpp \
-    sidebar.cpp
+    PixmapGenerator.cpp \
+    RotationCommand.cpp \
+    ShapeFactory.cpp \
+    ShapeItem.cpp \
+    Sidebar.cpp
 
 HEADERS += \
     AddShapeCommand.h \
     AddTextCommand.h \
     ChangeTextColorCommand.h \
     ChangeTextFontCommand.h \
+    ChangeShapeColorCommand.h \
     ExportToPNG.h \
     Command.h \
     CommandManager.h \
@@ -47,25 +48,26 @@ HEADERS += \
     DragOnSceneItem.h \
     ExportToJPEG.h \
     ExportStrategy.h \
+    ItemVisitors.h \
     LoadSaveVisitor.h \
     MoveCommand.h \
     ResizeCommand.h \
+    SceneMode.h \
     SceneModeState.h \
-    colorcommand.h \
-    diagramtextitem.h \
-    dragonscene.h \
-    dragontoolbar.h \
-    dragonview.h \
-    exportstrategy.h \
+    Serializable.h \
+    TextItem.h \
+    DragOnScene.h \
+    DragOnToolbar.h \
+    DragOnView.h \
+    ExportStrategy.h \
     ExportToPNG.h \
-    filemanager.h \
-    iconbutton.h \
-    itemvisitors.h \
-    pixmapgenerator.h \
-    rotationcommand.h \
-    shapefactory.h \
-    shapeitem.h \
-    sidebar.h
+    FileManager.h \
+    IconButton.h \
+    PixmapGenerator.h \
+    RotationCommand.h \
+    ShapeFactory.h \
+    ShapeItem.h \
+    Sidebar.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

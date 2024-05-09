@@ -2,10 +2,10 @@
 #define DRAGONVIEW_H
 
 #include <QGraphicsView>
-#include<QDropEvent>
-#include<QDragEnterEvent>
+#include <QDropEvent>
+#include <QDragEnterEvent>
 
-#include "dragonscene.h"
+#include "DragOnScene.h"
 
 class DragOnView : public QGraphicsView
 {

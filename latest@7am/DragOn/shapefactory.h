@@ -5,7 +5,7 @@
 #include <QVariantMap>
 #include <QGraphicsItem>
 
-#include "shapeitem.h"
+#include "ShapeItem.h"
 
 typedef struct ShapeParameters {
     QVariantMap params;

@@ -1,8 +1,8 @@
 #include "ChangeTextColorCommand.h"
 
-ChangeTextColorCommand::ChangeTextColorCommand(DiagramTextItem* item, QColor color)
+ChangeTextColorCommand::ChangeTextColorCommand(TextItem* item, QColor color)
     : item(item), prevColor(color) {
-    setText("Change text font");
+    setText("Change text color");
 }
 
 void ChangeTextColorCommand::undo() {

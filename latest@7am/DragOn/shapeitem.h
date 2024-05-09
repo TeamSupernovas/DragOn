@@ -4,9 +4,8 @@
 #include <QGraphicsPolygonItem>
 #include <QColor>
 
-#include "Command.h"
-#include "itemvisitors.h"
 #include "DragOnSceneItem.h"
+#include "ItemVisitors.h"
 
 enum class ShapeType {
     Rectangle,
@@ -26,7 +25,7 @@ public:
     ShapeType getShapeType() const { return shapeType; }
     QPixmap image() const;
     int type() const override { return Type; }
-    void accept(SceneItemVisitor *visitor);
+    void accept(SceneItemVisitor *visitor) override;
 
     QColor getColor() const { return color; }
     void setColor(const QColor &newColor);

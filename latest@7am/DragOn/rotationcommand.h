@@ -2,7 +2,7 @@
 #define ROTATECOMMAND_H
 
 #include "Command.h"
-#include "shapeitem.h"
+#include "ShapeItem.h"
 
 class RotateCommand : public Command {
 public:

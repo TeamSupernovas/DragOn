@@ -1,9 +1,10 @@
 #ifndef FILEMANAGER_H
 #define FILEMANAGER_H
 
-#include "dragonscene.h"
 #include <QString>
 #include <QMainWindow>
+
+#include "DragOnScene.h"
 #include "ExportStrategy.h"
 
 class FileManager

@@ -3,14 +3,13 @@
 
 #include <QPixmap>
 #include <QGraphicsItem>
-#include "itemvisitors.h"
+
+#include "ItemVisitors.h"
 
 class DragOnSceneItem {
 public:
     virtual ~DragOnSceneItem(){}
-    void  accept(SceneItemVisitor *visitor) {
-        visitor->visitSceneItem(this);
-    }
+    virtual void  accept(SceneItemVisitor *visitor) = 0;
 };
 
 #endif // DRAGONSCENEITEM_H

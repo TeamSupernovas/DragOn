@@ -2,7 +2,7 @@
 #define RESIZECOMMAND_H
 
 #include "Command.h"
-#include "shapeitem.h"
+#include "ShapeItem.h"
 
 #include <QPointF>
 

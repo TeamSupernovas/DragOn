@@ -1,4 +1,4 @@
-#include "rotationcommand.h"
+#include "RotationCommand.h"
 
 RotateCommand::RotateCommand(ShapeItem *item, qreal angle)
     : item(item), oldRotation(item->rotation()), newRotation(item->rotation() + angle) {}
