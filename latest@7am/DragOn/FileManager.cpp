@@ -5,11 +5,7 @@
 #include <QIODevice>
 #include <QFileDialog>
 
-FileManager::FileManager() {
-
-}
-
-
+FileManager::FileManager() {}
 
 void FileManager::saveSceneToFile(QMainWindow *mainWindow, DragOnScene * scene) {
     if (currentFilePath == nullptr) {

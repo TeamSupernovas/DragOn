@@ -9,7 +9,7 @@ DragOnMainWindow::DragOnMainWindow(QWidget *parent)
     scene->setSceneRect(QRectF(0, 0, 1500, 1000));
 
     view = new DragOnView(scene);
-    sidebar = new SideBar(this, scene, view);
+    sidebar = new DragOnSidebar(this, scene, view);
     toolbar = new DragOnToolBar(this, scene);
 
     QHBoxLayout *layout = new QHBoxLayout;

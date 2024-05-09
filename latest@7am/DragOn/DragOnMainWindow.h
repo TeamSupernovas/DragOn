@@ -5,7 +5,7 @@
 #include <QWidget>
 
 #include "DragOnScene.h"
-#include "Sidebar.h"
+#include "DragOnSidebar.h"
 #include "DragOnToolbar.h"
 
 QT_BEGIN_NAMESPACE
@@ -34,7 +34,7 @@ public:
 private:
     DragOnScene *scene;
     QGraphicsView * view;
-    SideBar *sidebar;
+    DragOnSidebar *sidebar;
     DragOnToolBar * toolbar;
 
 };
