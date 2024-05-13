@@ -14,6 +14,7 @@
 #include "DragOnSceneItem.h"
 #include "TextItem.h"
 #include "SceneMode.h"
+#include "SceneModeState.h"
 
 class DragOnScene : public QGraphicsScene
 {
@@ -29,6 +30,16 @@ public:
     void setFont(const QFont &font);
     void setFontSize(int fontSize);
     void  accept(SceneItemVisitor *visitor);
+    DragOnSceneItem * getSelectedItem();
+
+    QColor getTextItemColor() const;
+
+    QPointF getSceneDragStartPos() const;
+
+    bool getDragCreated() const;
+    void setDragCreated(bool newDragCreated);
+    QDrag * createDrag(const QString& text);
+    bool canResize(QRectF sceneBoundingRect, QPointF eventScenePos);
 
 public slots:
     void editorLostFocus(TextItem *item);
@@ -37,8 +48,6 @@ signals:
     void textInserted(QGraphicsTextItem *item);
 
 protected:
-    QDrag * createDrag(const QString& text);
-
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void dropEvent(QGraphicsSceneDragDropEvent *event) override;
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
@@ -51,8 +60,10 @@ private:
     QPointF sceneDragStartPos;
     QFont textItemFont;
     QColor textItemColor;
-    int textFontSize{12};
+    int stextFontSize{12};
     QGraphicsRectItem *boundingBox = nullptr;
+    std::map<SceneMode, SceneModeState*> sceneModeStateMap;
+    bool dragCreated;
 };
 
 

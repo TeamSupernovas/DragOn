@@ -7,7 +7,7 @@ enum class SceneMode {
     MoveItem,
     RotateItem,
     ResizeItem,
-    InsertText
+    AddTextItem
 };
 
 #endif // SCENEMODE_H

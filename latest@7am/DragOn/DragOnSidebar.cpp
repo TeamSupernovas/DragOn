@@ -89,7 +89,7 @@ void DragOnSidebar::buttonGroupPressed(QAbstractButton *button) {
     // Create a MIME data object to hold the data being dragged
     QMimeData *mimeData = new QMimeData;
     if (id == InsertTextButton) {
-        scene->setMode(SceneMode::InsertText);
+        scene->setMode(SceneMode::AddTextItem);
         mimeData->setText("add text");
     } else {
         ShapeItem* item = ShapeFactory::createDefaultShape(ShapeType(id));

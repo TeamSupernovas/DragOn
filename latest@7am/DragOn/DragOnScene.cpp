@@ -17,17 +17,29 @@
 #include "TextItem.h"
 #include "ChangeTextColorCommand.h"
 #include "ChangeTextFontCommand.h"
+#include "SceneModeNone.h"
+#include "SceneModeAddShapeItem.h"
+#include "SceneModeMoveItem.h"
+#include "SceneModeRotateItem.h"
+#include "SceneModeResizeItem.h"
+#include "SceneModeAddTextItem.h"
 
 #include <QCursor>
-
-bool canResize(QRectF sceneBoundingRect, QPointF eventScenePos) {
-    return (sceneBoundingRect.bottomRight() - eventScenePos).manhattanLength() < 30;
-}
-
 
 DragOnScene::DragOnScene(QObject *parent)
     : QGraphicsScene(parent), textItemColor(Qt::black)
 {
+    sceneModeStateMap[SceneMode::None] = new SceneModeNone(this);
+    sceneModeStateMap[SceneMode::AddShapeItem] = new SceneModeAddShapeItem(this);
+    sceneModeStateMap[SceneMode::MoveItem] = new SceneModeMoveItem(this);
+    sceneModeStateMap[SceneMode::RotateItem] = new SceneModeRotateItem(this);
+    sceneModeStateMap[SceneMode::ResizeItem] = new SceneModeResizeItem(this);
+    sceneModeStateMap[SceneMode::AddTextItem] = new SceneModeAddTextItem(this);
+
+}
+
+bool DragOnScene::canResize(QRectF sceneBoundingRect, QPointF eventScenePos) {
+    return (sceneBoundingRect.bottomRight() - eventScenePos).manhattanLength() < 30;
 }
 
 void DragOnScene::setMode(SceneMode mode) {
@@ -48,111 +60,20 @@ QDrag * DragOnScene::createDrag(const QString& text) {
 }
 
 void DragOnScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-    qDebug() << "scene mouse pressed";
-    bool dragCreated = false;
-    if (event->button() == Qt::LeftButton) {
-        if (selectedItem && sceneMode == SceneMode::None) {
-            if (auto *selectedShapeItem = dynamic_cast<ShapeItem*>(selectedItem)) {
-                if (canResize(selectedShapeItem->sceneBoundingRect(), event->scenePos())) {
-                    dragCreated = true;
-                    // start Resize
-                    event->accept();
-                    setSelectedItem(selectedItem);
-                    sceneMode = SceneMode::ResizeItem;
-                    qDebug() << "scene mode is ResizeItem now";
-
-                    QDrag *drag = createDrag("Resize");
-
-                    // Start the drag operation
-                    drag->exec(Qt::MoveAction);
-                }
-            }
-
-        }
-        if (!dragCreated && sceneMode == SceneMode::None){
-            // Find the top-most item at the mouse position
-            QGraphicsItem *graphicsItem = itemAt(event->scenePos(), QTransform());
-            if (graphicsItem == nullptr) {
-                unSelectIfSelectedItem();
-            }
-            else if (auto *sceneItem = dynamic_cast<DragOnSceneItem*>(graphicsItem)) {
-                if (graphicsItem && graphicsItem->flags() & QGraphicsItem::ItemIsMovable) {
-                    event->accept();
-                    setSelectedItem(sceneItem);
-                    sceneMode = SceneMode::MoveItem;
-                    qDebug() << "scene mode is MoveItem now";
-
-                    QDrag *drag = createDrag("Move");
-                    if (auto *shapeItem = dynamic_cast<ShapeItem*>(graphicsItem)) {
-                           drag->setPixmap(shapeItem->image());
-                    }
-                    drag->setHotSpot((event->scenePos() - graphicsItem->scenePos()).toPoint());
-                    dragCreated = true;
-                    // Start the drag operation
-                    drag->exec(Qt::MoveAction);
-                }
-            }
-        }
-    }
-    if (!dragCreated) {
+    sceneModeStateMap.at(sceneMode)->onMousePress(event);
+    if (!getDragCreated()) {
         QGraphicsScene::mousePressEvent(event);
     }
 }
 
 void DragOnScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
-    qDebug() << "Dropping:";
-
-    const QMimeData *mimeData = event->mimeData();
-    if (mimeData->hasText()) {
-        QString text = mimeData->text();
-        qDebug() << "Dropped text:" << text;
-        if (sceneMode == SceneMode::InsertText) {
-            TextItem * textItem = TextItem::createTextItem(
-                QString("lorem ipsum"),
-                textItemFont,
-                textItemColor
-            );
-            textItem->setPos(event->scenePos());
-            setSelectedItem(textItem);
-            qDebug() << "insert text item now";
-            CommandManager::instance()->executeCommand(new AddTextCommand(textItem, this));
-            sceneMode = SceneMode::None;
-            event->accept();
-        } else if (selectedItem) {
-            if (sceneMode == SceneMode::AddShapeItem) {
-                if (auto *shapeItem = dynamic_cast<ShapeItem*>(selectedItem)) {
-                    shapeItem->setPos(event->scenePos());
-                    CommandManager::instance()->executeCommand(new AddShapeCommand(shapeItem, this));
-                    sceneMode = SceneMode::None;
-                    event->accept();
-                }
-            } else if (sceneMode == SceneMode::MoveItem) {
-                if (auto *graphicsItem = dynamic_cast<QGraphicsItem*>(selectedItem)) {
-                    QPointF dropPos = event->scenePos();
-                    QPointF moveBy = dropPos - sceneDragStartPos;
-                    qDebug() << "moveBy: " << moveBy;
-                    if (moveBy.x() || moveBy.y()) {
-                        CommandManager::instance()->executeCommand(new MoveCommand(graphicsItem, moveBy));
-                    }
-                    sceneMode = SceneMode::None;
-                    event->accept();
-                }
-            } else if (sceneMode == SceneMode::ResizeItem) {
-                if (auto *shapeItem = dynamic_cast<ShapeItem*>(selectedItem)) {
-                    QPointF newBottomRight = event->scenePos() - shapeItem->pos();
-                    QPointF changeBoundingRectSizeBy = newBottomRight - shapeItem->polygon().boundingRect().bottomRight();
-                    CommandManager::instance()->executeCommand(new ResizeCommand(shapeItem, changeBoundingRectSizeBy));
-                    sceneMode = SceneMode::None;
-                    event->accept();
-                }
-            }
-        }
+    sceneModeStateMap.at(sceneMode)->onDrop(event);
+    if (!event->isAccepted()) {
+        QGraphicsScene::dropEvent(event);
     }
-    QGraphicsScene::dropEvent(event);
 }
 
-void DragOnScene::editorLostFocus(TextItem *item)
-{
+void DragOnScene::editorLostFocus(TextItem *item) {
     QTextCursor cursor = item->textCursor();
     cursor.clearSelection();
     item->setTextCursor(cursor);
@@ -194,43 +115,33 @@ void DragOnScene::unSelectIfSelectedItem() {
     foreach (QGraphicsItem *item, selectedItems()) {
         item->setSelected(false);
     }
-    /*// Remove and hide the bounding box
-    if (boundingBox) {
-        removeItem(boundingBox);
-        boundingBox = nullptr;
-    }*/
     selectedItem = nullptr;
 }
 
-void DragOnScene::drawBackground(QPainter *painter, const QRectF &rect) {
-    const qreal gridSize = 10.0;  // Grid spacing
-    qreal left = int(rect.left()) - (int(rect.left()) % int(gridSize));
-    qreal top = int(rect.top()) - (int(rect.top()) % int(gridSize));
+bool DragOnScene::getDragCreated() const {
+    return dragCreated;
+}
 
-    QVarLengthArray<QLineF, 100> lines;
+void DragOnScene::setDragCreated(bool newDragCreated) {
+    dragCreated = newDragCreated;
+}
 
-    for (qreal x = left; x < rect.right(); x += gridSize) {
-        lines.append(QLineF(x, rect.top(), x, rect.bottom()));
-    }
+QPointF DragOnScene::getSceneDragStartPos() const {
+    return sceneDragStartPos;
+}
 
-    for (qreal y = top; y < rect.bottom(); y += gridSize) {
-        lines.append(QLineF(rect.left(), y, rect.right(), y));
-    }
-
-    painter->setPen(QPen(Qt::blue, 0, Qt::DotLine));
-    painter->drawLines(lines.data(), lines.size());
+QColor DragOnScene::getTextItemColor() const {
+    return textItemColor;
 }
 
 
 void DragOnScene::addTextItem(TextItem * textItem) {
     textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
-    connect(textItem, &TextItem::lostFocus,
-            this, &DragOnScene::editorLostFocus);
+    connect(textItem, &TextItem::lostFocus, this, &DragOnScene::editorLostFocus);
     addItem(textItem);
 }
 
-void DragOnScene::setTextColor(const QColor &color)
-{
+void DragOnScene::setTextColor(const QColor &color) {
     textItemColor = color;
     if (selectedItem) {
         if (auto *textItem = dynamic_cast<TextItem*>(selectedItem)) {
@@ -260,5 +171,28 @@ void DragOnScene::accept(SceneItemVisitor *visitor) {
             sceneItem->accept(visitor);
         }
     }
+}
+
+DragOnSceneItem *DragOnScene::getSelectedItem() {
+    return selectedItem;
+}
+
+void DragOnScene::drawBackground(QPainter *painter, const QRectF &rect) {
+    const qreal gridSize = 10.0;  // Grid spacing
+    qreal left = int(rect.left()) - (int(rect.left()) % int(gridSize));
+    qreal top = int(rect.top()) - (int(rect.top()) % int(gridSize));
+
+    QVarLengthArray<QLineF, 100> lines;
+
+    for (qreal x = left; x < rect.right(); x += gridSize) {
+        lines.append(QLineF(x, rect.top(), x, rect.bottom()));
+    }
+
+    for (qreal y = top; y < rect.bottom(); y += gridSize) {
+        lines.append(QLineF(rect.left(), y, rect.right(), y));
+    }
+
+    painter->setPen(QPen(Qt::blue, 0, Qt::DotLine));
+    painter->drawLines(lines.data(), lines.size());
 }
 

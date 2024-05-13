@@ -2,11 +2,19 @@
 #define SCENEMODESTATE_H
 
 #include <QGraphicsSceneDragDropEvent>
-#include <DragOnScene.h>
+#include <QGraphicsSceneMouseEvent>
 
-class SceneModeState {
+class DragOnScene;
+
+class SceneModeState
+{
 public:
-    virtual void handleDropEvent(DragOnScene* context, QGraphicsSceneDragDropEvent* event) = 0;
+    SceneModeState(DragOnScene* scene);
+    virtual void onMousePress(QGraphicsSceneMouseEvent *event) = 0;
+    virtual void onDrop(QGraphicsSceneDragDropEvent *event) = 0;
+
+protected:
+    DragOnScene* scene;
 };
 
 #endif // SCENEMODESTATE_H
