@@ -5,6 +5,7 @@
 #include <QIcon>
 
 class IconButton : public QPushButton {
+
 public:
     IconButton(const QIcon &icon, QWidget *parent = nullptr);
 

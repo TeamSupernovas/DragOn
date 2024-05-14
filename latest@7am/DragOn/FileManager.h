@@ -7,8 +7,8 @@
 #include "DragOnScene.h"
 #include "ExportStrategy.h"
 
-class FileManager
-{
+class FileManager {
+
 public:
     FileManager();
 

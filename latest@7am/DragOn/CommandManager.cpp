@@ -8,10 +8,8 @@ CommandManager::~CommandManager() {
     single_instance = nullptr;
 }
 
-CommandManager *CommandManager::instance()
-{
-    if (single_instance == nullptr)
-    {
+CommandManager *CommandManager::instance() {
+    if (single_instance == nullptr) {
         single_instance = new CommandManager();
     }
 

@@ -7,8 +7,8 @@
 #include "Command.h"
 #include "ShapeItem.h"
 
-class ChangeShapeColorCommand : public Command
-{
+class ChangeShapeColorCommand : public Command {
+
 public:
     ChangeShapeColorCommand(ShapeItem *item, QColor color);
 

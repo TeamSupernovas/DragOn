@@ -3,12 +3,14 @@
 
 #include "SceneModeState.h"
 
-class SceneModeRotateItem : public SceneModeState
-{
+class SceneModeRotateItem : public SceneModeState {
+
 public:
     SceneModeRotateItem(DragOnScene * scene);
     void onMousePress(QGraphicsSceneMouseEvent *event) override;
     void onDrop(QGraphicsSceneDragDropEvent *event) override;
+    void onDragMove(QGraphicsSceneDragDropEvent *event) override;
+    void onDragEnter(QGraphicsSceneDragDropEvent *event) override;
 
 };
 

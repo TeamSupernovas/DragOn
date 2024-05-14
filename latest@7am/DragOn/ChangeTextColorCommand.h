@@ -6,8 +6,8 @@
 #include "Command.h"
 #include "TextItem.h"
 
-class ChangeTextColorCommand: public Command
-{
+class ChangeTextColorCommand: public Command {
+
 public:
     ChangeTextColorCommand(TextItem * item, QColor font);
     void undo() override;
@@ -20,4 +20,5 @@ private:
     TextItem * item;
     QColor prevColor;
 };
+
 #endif // CHANGETEXTCOLORCOMMAND_H

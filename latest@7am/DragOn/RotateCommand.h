@@ -5,6 +5,7 @@
 #include "ShapeItem.h"
 
 class RotateCommand : public Command {
+
 public:
     RotateCommand(ShapeItem *item, qreal angle);
     void undo() override;

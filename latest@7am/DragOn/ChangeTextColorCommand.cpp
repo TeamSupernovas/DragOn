@@ -1,7 +1,6 @@
 #include "ChangeTextColorCommand.h"
 
-ChangeTextColorCommand::ChangeTextColorCommand(TextItem* item, QColor color)
-    : item(item), prevColor(color) {
+ChangeTextColorCommand::ChangeTextColorCommand(TextItem* item, QColor color) : item(item), prevColor(color) {
     setText("Change text color");
 }
 

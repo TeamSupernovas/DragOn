@@ -11,8 +11,7 @@ typedef struct ShapeParameters {
     QVariantMap params;
 } ShapeParameters;
 
-class ShapeFactory
-{
+class ShapeFactory {
 
 public:
     static QPolygonF createShapePolygon(ShapeType shapeType, QPointF size);

@@ -3,12 +3,14 @@
 
 #include "SceneModeState.h"
 
-class SceneModeResizeItem : public SceneModeState
-{
+class SceneModeResizeItem : public SceneModeState {
+
 public:
     SceneModeResizeItem(DragOnScene * scene);
     void onMousePress(QGraphicsSceneMouseEvent *event) override;
     void onDrop(QGraphicsSceneDragDropEvent *event) override;
+    void onDragMove(QGraphicsSceneDragDropEvent *event) override;
+    void onDragEnter(QGraphicsSceneDragDropEvent *event) override;
 };
 
 #endif // SCENEMODERESIZEITEM_H

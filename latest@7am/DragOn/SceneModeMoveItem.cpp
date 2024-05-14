@@ -1,13 +1,12 @@
 #include "SceneModeMoveItem.h"
-#include "QGraphicsItem.h"
+#include <QGraphicsItem>
 #include "CommandManager.h"
 #include "MoveCommand.h"
 #include "DragOnScene.h"
 
 SceneModeMoveItem::SceneModeMoveItem(DragOnScene * scene) : SceneModeState(scene) {}
 
-void SceneModeMoveItem::onMousePress(QGraphicsSceneMouseEvent *event)
-{
+void SceneModeMoveItem::onMousePress(QGraphicsSceneMouseEvent *event) {
 
 }
 
@@ -24,5 +23,13 @@ void SceneModeMoveItem::onDrop(QGraphicsSceneDragDropEvent *event) {
             event->accept();
         }
     }
+
+}
+
+void SceneModeMoveItem::onDragMove(QGraphicsSceneDragDropEvent *event) {
+
+}
+
+void SceneModeMoveItem::onDragEnter(QGraphicsSceneDragDropEvent *event) {
 
 }

@@ -1,8 +1,7 @@
 #include "ChangeShapeColorCommand.h"
 
-ChangeShapeColorCommand::ChangeShapeColorCommand(ShapeItem *item, QColor color)
-    : item(item), prevColor(color) {
-    setText("Change text color");
+ChangeShapeColorCommand::ChangeShapeColorCommand(ShapeItem *item, QColor color) : item(item), prevColor(color) {
+    setText("Change shape color");
 }
 
 void ChangeShapeColorCommand::undo() {

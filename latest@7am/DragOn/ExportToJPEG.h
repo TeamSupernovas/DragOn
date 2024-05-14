@@ -4,6 +4,7 @@
 #include "ExportStrategy.h"
 
 class ExportToJPEG : public ExportStrategy {
+
 public:
     void exportScene(const QPixmap &pixmap, const QString &fileName) override;
     QString getName() const override;

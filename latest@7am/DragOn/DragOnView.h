@@ -7,8 +7,7 @@
 
 #include "DragOnScene.h"
 
-class DragOnView : public QGraphicsView
-{
+class DragOnView : public QGraphicsView {
     Q_OBJECT
 
 public:

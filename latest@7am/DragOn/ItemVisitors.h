@@ -5,8 +5,8 @@ class ShapeItem;
 class TextItem;
 
 // iterface to visit all shapes
-class SceneItemVisitor
-{
+class SceneItemVisitor {
+
 public:
     virtual void visitShapeItem(ShapeItem *item) = 0;
     virtual void visitTextItem(TextItem *item) = 0;

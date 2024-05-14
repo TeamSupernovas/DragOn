@@ -6,8 +6,8 @@
 
 #include <QPointF>
 
-class ResizeCommand : public Command
-{
+class ResizeCommand : public Command {
+
 public:
     ResizeCommand(ShapeItem * item, QPointF changeBoundingRectSizeBy);
 

@@ -5,8 +5,8 @@
 #include "DragOnScene.h"
 #include "TextItem.h"
 
-class AddTextCommand : public Command
-{
+class AddTextCommand : public Command {
+
 public:
     AddTextCommand(TextItem * item, DragOnScene * scene);
     void undo() override;

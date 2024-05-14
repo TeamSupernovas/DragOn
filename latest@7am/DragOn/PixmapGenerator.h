@@ -5,8 +5,8 @@
 #include <QGraphicsScene>
 #include "DragOnScene.h"
 
-class PixmapGenerator
-{
+class PixmapGenerator {
+
 public:
     static QPixmap createPixmapFromScene(DragOnScene *scene);
 };

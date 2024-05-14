@@ -28,6 +28,7 @@ DragOnSidebar::DragOnSidebar(QMainWindow *mainWindow, DragOnScene *scene, QGraph
     buttonGroup->addButton(textButton, InsertTextButton);
     textButton->setIcon(QIcon(QPixmap(":/images/textpointer.png")));
     textButton->setIconSize(QSize(50, 50));
+
     QWidget *textWidget = new QWidget;
     QHBoxLayout *textLayout = new QHBoxLayout(textWidget);
     textLayout->addWidget(textButton);
@@ -51,6 +52,7 @@ DragOnSidebar::DragOnSidebar(QMainWindow *mainWindow, DragOnScene *scene, QGraph
     }
 
     layout->addStretch(); // Add stretch to push shapes to the top
+
 
     QWidget *itemWidget = new QWidget;
     itemWidget->setLayout(layout);

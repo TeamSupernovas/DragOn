@@ -1,7 +1,6 @@
 #include "ChangeTextFontCommand.h"
 
-ChangeTextFontCommand::ChangeTextFontCommand(TextItem* item, QFont font)
-    : item(item), prevFont(font) {
+ChangeTextFontCommand::ChangeTextFontCommand(TextItem* item, QFont font) : item(item), prevFont(font) {
     setText("Change text font");
 }
 

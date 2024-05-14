@@ -16,9 +16,9 @@
 #include "SceneMode.h"
 #include "SceneModeState.h"
 
-class DragOnScene : public QGraphicsScene
-{
+class DragOnScene : public QGraphicsScene {
     Q_OBJECT
+
 public:
     explicit DragOnScene(QObject *parent = nullptr);
     void setMode(SceneMode mode);
@@ -65,6 +65,5 @@ private:
     std::map<SceneMode, SceneModeState*> sceneModeStateMap;
     bool dragCreated;
 };
-
 
 #endif // DRAGONSCENE_H

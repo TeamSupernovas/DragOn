@@ -6,6 +6,7 @@
 #include "ShapeItem.h"
 
 class AddShapeCommand : public Command {
+
 public:
     AddShapeCommand(ShapeItem * item, DragOnScene * scene);
 

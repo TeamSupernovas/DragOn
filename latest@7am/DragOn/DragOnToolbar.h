@@ -1,4 +1,3 @@
-// dragontoolbar.h
 #ifndef DRAGONTOOLBAR_H
 #define DRAGONTOOLBAR_H
 
@@ -11,6 +10,7 @@
 #include <vector>
 
 class DragOnToolBar {
+
 public:
     DragOnToolBar(QMainWindow *mainWindow, DragOnScene *scene);
 

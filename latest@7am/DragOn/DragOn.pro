@@ -14,17 +14,30 @@ SOURCES += \
     ChangeShapeColorCommand.cpp \
     ChangeTextColorCommand.cpp \
     ChangeTextFontCommand.cpp \
+    ColorSerializer.cpp \
     Command.cpp \
     CommandManager.cpp \
     DragOnMainWindow.cpp \
     DragOnScene.cpp \
+    DragOnSidebar.cpp \
     DragOnToolbar.cpp \
     DragOnView.cpp \
     ExportToJPEG.cpp \
     ExportToPNG.cpp \
     FileManager.cpp \
+    FontSerializer.cpp \
     IconButton.cpp \
-    LoadSaveVisitor.cpp \
+    PolygonSerializer.cpp \
+    SaveVisitor.cpp \
+    SceneLoader.cpp \
+    SceneModeAddShapeItem.cpp \
+    SceneModeAddTextItem.cpp \
+    SceneModeMoveItem.cpp \
+    SceneModeNone.cpp \
+    SceneModeResizeItem.cpp \
+    SceneModeRotateItem.cpp \
+    SceneModeState.cpp \
+    TransformSerializer.cpp \
     main.cpp \
     MoveCommand.cpp \
     PixmapGenerator.cpp \
@@ -32,7 +45,6 @@ SOURCES += \
     RotateCommand.cpp \
     ShapeFactory.cpp \
     ShapeItem.cpp \
-    SideBar.cpp \
     TextItem.cpp
 
 HEADERS += \
@@ -41,31 +53,41 @@ HEADERS += \
     ChangeShapeColorCommand.h \
     ChangeTextColorCommand.h \
     ChangeTextFontCommand.h \
+    ColorSerializer.h \
     Command.h \
     CommandManager.h \
     DragOnMainWindow.h \
     DragOnScene.h \
     DragOnSceneItem.h \
+    DragOnSidebar.h \
     DragOnToolbar.h \
     DragOnView.h \
     ExportStrategy.h \
     ExportToJPEG.h \
     ExportToPNG.h \
     FileManager.h \
+    FontSerializer.h \
     IconButton.h \
     ItemVisitors.h \
-    LoadSaveVisitor.h \
     MoveCommand.h \
     PixmapGenerator.h \
+    PolygonSerializer.h \
     ResizeCommand.h \
     RotateCommand.h \
+    SaveVisitor.h \
+    SceneLoader.h \
     SceneMode.h \
+    SceneModeAddShapeItem.h \
+    SceneModeAddTextItem.h \
+    SceneModeMoveItem.h \
+    SceneModeNone.h \
+    SceneModeResizeItem.h \
+    SceneModeRotateItem.h \
     SceneModeState.h \
-    Serializable.h \
     ShapeFactory.h \
     ShapeItem.h \
-    SideBar.h \
-    TextItem.h
+    TextItem.h \
+    TransformSerializer.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

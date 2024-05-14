@@ -1,5 +1,6 @@
 #include "FileManager.h"
-#include "LoadSaveVisitor.h"
+#include "SaveVisitor.h"
+#include "SceneLoader.h"
 #include "PixmapGenerator.h"
 #include <QString>
 #include <QIODevice>

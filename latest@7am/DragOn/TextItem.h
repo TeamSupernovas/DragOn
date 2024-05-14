@@ -5,20 +5,15 @@
 
 #include "DragOnSceneItem.h"
 
-class TextItem : public QGraphicsTextItem, public DragOnSceneItem
-{
+class TextItem : public QGraphicsTextItem, public DragOnSceneItem {
     Q_OBJECT
 
 public:
     enum { Type = UserType + 3 };
-
     TextItem(QGraphicsItem *parent = nullptr);
-
     int type() const override { return Type; }
-
     static TextItem * createTextItem(QString text, QFont font, QColor color);
     static TextItem * createTextItem(QString text, QFont font, QColor color, QTransform transform);
-
     void  accept(SceneItemVisitor *visitor) override;
 
 signals:

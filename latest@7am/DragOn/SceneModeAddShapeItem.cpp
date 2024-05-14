@@ -21,3 +21,11 @@ void SceneModeAddShapeItem::onDrop(QGraphicsSceneDragDropEvent *event) {
         }
     }
 }
+
+void SceneModeAddShapeItem::onDragMove(QGraphicsSceneDragDropEvent *event) {
+
+}
+
+void SceneModeAddShapeItem::onDragEnter(QGraphicsSceneDragDropEvent *event) {
+
+}

@@ -21,3 +21,11 @@ void SceneModeResizeItem::onDrop(QGraphicsSceneDragDropEvent *event) {
         }
     }
 }
+
+void SceneModeResizeItem::onDragMove(QGraphicsSceneDragDropEvent *event) {
+
+}
+
+void SceneModeResizeItem::onDragEnter(QGraphicsSceneDragDropEvent *event) {
+
+}

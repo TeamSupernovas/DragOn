@@ -6,8 +6,8 @@
 #include "Command.h"
 #include "TextItem.h"
 
-class ChangeTextFontCommand: public Command
-{
+class ChangeTextFontCommand: public Command {
+
 public:
     ChangeTextFontCommand(TextItem * item, QFont font);
     void undo() override;

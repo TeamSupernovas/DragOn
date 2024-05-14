@@ -10,10 +10,6 @@
 #include <QDropEvent>
 #include <QMimeData>
 #include "CommandManager.h"
-#include "AddShapeCommand.h"
-#include "AddTextCommand.h"
-#include "MoveCommand.h"
-#include "ResizeCommand.h"
 #include "TextItem.h"
 #include "ChangeTextColorCommand.h"
 #include "ChangeTextFontCommand.h"
@@ -26,9 +22,8 @@
 
 #include <QCursor>
 
-DragOnScene::DragOnScene(QObject *parent)
-    : QGraphicsScene(parent), textItemColor(Qt::black)
-{
+DragOnScene::DragOnScene(QObject *parent) : QGraphicsScene(parent), textItemColor(Qt::black) {
+
     sceneModeStateMap[SceneMode::None] = new SceneModeNone(this);
     sceneModeStateMap[SceneMode::AddShapeItem] = new SceneModeAddShapeItem(this);
     sceneModeStateMap[SceneMode::MoveItem] = new SceneModeMoveItem(this);
@@ -77,6 +72,7 @@ void DragOnScene::editorLostFocus(TextItem *item) {
     QTextCursor cursor = item->textCursor();
     cursor.clearSelection();
     item->setTextCursor(cursor);
+    item->update();
 
     if (item->toPlainText().isEmpty()) {
         removeItem(item);
@@ -179,20 +175,21 @@ DragOnSceneItem *DragOnScene::getSelectedItem() {
 
 void DragOnScene::drawBackground(QPainter *painter, const QRectF &rect) {
     const qreal gridSize = 10.0;  // Grid spacing
-    qreal left = int(rect.left()) - (int(rect.left()) % int(gridSize));
-    qreal top = int(rect.top()) - (int(rect.top()) % int(gridSize));
+    int left = static_cast<int>(rect.left()) - (static_cast<int>(rect.left()) % static_cast<int>(gridSize));
+    int top = static_cast<int>(rect.top()) - (static_cast<int>(rect.top()) % static_cast<int>(gridSize));
 
     QVarLengthArray<QLineF, 100> lines;
 
-    for (qreal x = left; x < rect.right(); x += gridSize) {
+    for (int x = left; x < static_cast<int>(rect.right()); x += static_cast<int>(gridSize)) {
         lines.append(QLineF(x, rect.top(), x, rect.bottom()));
     }
 
-    for (qreal y = top; y < rect.bottom(); y += gridSize) {
+    for (int y = top; y < static_cast<int>(rect.bottom()); y += static_cast<int>(gridSize)) {
         lines.append(QLineF(rect.left(), y, rect.right(), y));
     }
 
     painter->setPen(QPen(Qt::blue, 0, Qt::DotLine));
     painter->drawLines(lines.data(), lines.size());
 }
+
 

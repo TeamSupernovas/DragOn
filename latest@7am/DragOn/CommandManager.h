@@ -4,15 +4,15 @@
 #include "Command.h"
 
 class CommandManager {
+
 public:
 
+    static CommandManager *instance();
     void executeCommand(Command * command);
     void undo();
     void redo();
     bool canUndo() const;
     bool canRedo() const;
-
-    static CommandManager *instance();
 
 private:
     CommandManager();
