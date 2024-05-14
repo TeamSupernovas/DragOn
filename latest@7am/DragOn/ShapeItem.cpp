@@ -5,7 +5,7 @@
 #include "ShapeItem.h"
 
 ShapeItem::ShapeItem(ShapeType shapeType, QPolygonF polygon, const QColor &color, QGraphicsItem *parent)
-    : QGraphicsPolygonItem(polygon, parent), shapeType(shapeType), color(color), originalColor(color) {
+    : QGraphicsPolygonItem(polygon, parent), shapeType(shapeType), color(color) {
 
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
@@ -56,8 +56,6 @@ void ShapeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
 void ShapeItem::setColor(const QColor &newColor)
 {
-    // Store the original color for undo
-    originalColor = color;
     // Set the new color
     color = newColor;
     // Update the shape's appearance
