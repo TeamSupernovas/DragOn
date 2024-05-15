@@ -68,6 +68,18 @@ void DragOnScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
     }
 }
 
+
+void DragOnScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event) {
+    sceneModeStateMap.at(sceneMode)->onDragMove(event);
+}
+
+
+void DragOnScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event) {
+    sceneModeStateMap.at(sceneMode)->onDragEnter(event);
+    QGraphicsScene::dragEnterEvent(event);
+}
+
+
 void DragOnScene::editorLostFocus(TextItem *item) {
     QTextCursor cursor = item->textCursor();
     cursor.clearSelection();
@@ -78,21 +90,6 @@ void DragOnScene::editorLostFocus(TextItem *item) {
         removeItem(item);
         item->deleteLater();
     }
-}
-
-void DragOnScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event) {
-    //qDebug() << "Drag Move Event";
-}
-
-
-void DragOnScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event) {
-
-    if (event->mimeData()->hasText()) {
-        qDebug() << "dragEnterEvent has text: " << event->mimeData()->text();
-    }
-    sceneDragStartPos = event->scenePos();
-    qDebug() << "Drag entered at:" << sceneDragStartPos ;
-    QGraphicsScene::dragEnterEvent(event);
 }
 
 void DragOnScene::setSelectedItem(DragOnSceneItem *item) {
@@ -190,6 +187,10 @@ void DragOnScene::drawBackground(QPainter *painter, const QRectF &rect) {
 
     painter->setPen(QPen(Qt::blue, 0, Qt::DotLine));
     painter->drawLines(lines.data(), lines.size());
+}
+
+void DragOnScene::setSceneDragStartPos(QPointF newSceneDragStartPos) {
+    sceneDragStartPos = newSceneDragStartPos;
 }
 
 

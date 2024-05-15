@@ -41,6 +41,8 @@ public:
     QDrag * createDrag(const QString& text);
     bool canResize(QRectF sceneBoundingRect, QPointF eventScenePos);
 
+    void setSceneDragStartPos(QPointF newSceneDragStartPos);
+
 public slots:
     void editorLostFocus(TextItem *item);
 

@@ -8,7 +8,7 @@
 SceneModeAddShapeItem::SceneModeAddShapeItem(DragOnScene * scene) : SceneModeState(scene) {}
 
 void SceneModeAddShapeItem::onMousePress(QGraphicsSceneMouseEvent *event) {
-
+    // future enhancement
 }
 
 void SceneModeAddShapeItem::onDrop(QGraphicsSceneDragDropEvent *event) {
@@ -23,9 +23,5 @@ void SceneModeAddShapeItem::onDrop(QGraphicsSceneDragDropEvent *event) {
 }
 
 void SceneModeAddShapeItem::onDragMove(QGraphicsSceneDragDropEvent *event) {
-
-}
-
-void SceneModeAddShapeItem::onDragEnter(QGraphicsSceneDragDropEvent *event) {
-
+    // future enhancement
 }

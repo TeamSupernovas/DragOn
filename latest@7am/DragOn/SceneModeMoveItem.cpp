@@ -7,7 +7,7 @@
 SceneModeMoveItem::SceneModeMoveItem(DragOnScene * scene) : SceneModeState(scene) {}
 
 void SceneModeMoveItem::onMousePress(QGraphicsSceneMouseEvent *event) {
-
+    // future enhancement
 }
 
 void SceneModeMoveItem::onDrop(QGraphicsSceneDragDropEvent *event) {
@@ -27,9 +27,6 @@ void SceneModeMoveItem::onDrop(QGraphicsSceneDragDropEvent *event) {
 }
 
 void SceneModeMoveItem::onDragMove(QGraphicsSceneDragDropEvent *event) {
-
+    // future enhancement
 }
 
-void SceneModeMoveItem::onDragEnter(QGraphicsSceneDragDropEvent *event) {
-
-}

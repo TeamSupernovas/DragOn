@@ -13,7 +13,7 @@ public:
     virtual void onMousePress(QGraphicsSceneMouseEvent *event) = 0;
     virtual void onDrop(QGraphicsSceneDragDropEvent *event) = 0;
     virtual void onDragMove(QGraphicsSceneDragDropEvent *event) = 0;
-    virtual void onDragEnter(QGraphicsSceneDragDropEvent *event) = 0;
+    virtual void onDragEnter(QGraphicsSceneDragDropEvent *event);
 
 protected:
     DragOnScene* scene;

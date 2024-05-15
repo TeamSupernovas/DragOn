@@ -7,7 +7,7 @@
 SceneModeAddTextItem::SceneModeAddTextItem(DragOnScene * scene) : SceneModeState(scene) {}
 
 void SceneModeAddTextItem::onMousePress(QGraphicsSceneMouseEvent *event) {
-
+    // future enhancement
 }
 
 void SceneModeAddTextItem::onDrop(QGraphicsSceneDragDropEvent *event)
@@ -26,9 +26,5 @@ void SceneModeAddTextItem::onDrop(QGraphicsSceneDragDropEvent *event)
 }
 
 void SceneModeAddTextItem::onDragMove(QGraphicsSceneDragDropEvent *event) {
-
-}
-
-void SceneModeAddTextItem::onDragEnter(QGraphicsSceneDragDropEvent *event) {
-
+    // future enhancement
 }

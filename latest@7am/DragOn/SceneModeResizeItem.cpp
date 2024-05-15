@@ -7,7 +7,7 @@
 SceneModeResizeItem::SceneModeResizeItem(DragOnScene * scene) : SceneModeState(scene) {}
 
 void SceneModeResizeItem::onMousePress(QGraphicsSceneMouseEvent *event) {
-
+    // future enhancement
 }
 
 void SceneModeResizeItem::onDrop(QGraphicsSceneDragDropEvent *event) {
@@ -23,9 +23,6 @@ void SceneModeResizeItem::onDrop(QGraphicsSceneDragDropEvent *event) {
 }
 
 void SceneModeResizeItem::onDragMove(QGraphicsSceneDragDropEvent *event) {
-
+    // future enhancement
 }
 
-void SceneModeResizeItem::onDragEnter(QGraphicsSceneDragDropEvent *event) {
-
-}

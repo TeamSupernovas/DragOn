@@ -61,7 +61,3 @@ void SceneModeNone::onDrop(QGraphicsSceneDragDropEvent *event) {
 void SceneModeNone::onDragMove(QGraphicsSceneDragDropEvent *event) {
 
 }
-
-void SceneModeNone::onDragEnter(QGraphicsSceneDragDropEvent *event) {
-
-}

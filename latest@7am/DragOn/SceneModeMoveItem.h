@@ -10,7 +10,6 @@ public:
     void onMousePress(QGraphicsSceneMouseEvent *event) override;
     void onDrop(QGraphicsSceneDragDropEvent *event) override;
     void onDragMove(QGraphicsSceneDragDropEvent *event) override;
-    void onDragEnter(QGraphicsSceneDragDropEvent *event) override;
 };
 
 #endif // SCENEMODEMOVEITEM_H
