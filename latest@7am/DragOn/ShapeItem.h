@@ -39,7 +39,6 @@ protected:
 private:
     ShapeType shapeType;
     QColor color;
-    QColor originalColor; // Store the original color for undo
 };
 
 #endif // SHAPEITEM_H
